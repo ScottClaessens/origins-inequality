@@ -1,1 +1,4 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+tree_file|stem|097e0a16f1431efe|1de9ec4cb0b83efe|2c530c1562a7fbd1|-419834672|data/tree/dplace.nxs|t20557.9999421296s|s55689082b|55689082|file|local|vector|||0.833||
+load_dplace_data|function|39e3a15ed321b6e2
+dplace_societies_url|stem||aee14d29acec2be0|2c530c1562a7fbd1|17396771|https://raw.githubusercontent.com/D-PLACE/dplace-cldf/6c2008c187a297d1955b41d8ae80d8e31d404f6c/cldf/societies.csv|t20558.7883530442s||0|url|local|vector|||||Error resolving output location: Timeout was reached [raw.githubusercontent.com]: Connection timed out after 10002 milliseconds
