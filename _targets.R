@@ -2,7 +2,7 @@ library(targets)
 library(tarchetypes)
 
 tar_option_set(
-  packages = c("ape", "phangorn", "tidyverse")
+  packages = c("ape", "coevolve", "phangorn", "tidyverse")
 )
 tar_source()
 
@@ -46,5 +46,11 @@ list(
       dplace_data_url, dplace_societies_url,
       glottolog_languages_url, mcc_tree
     )
-  )
+  ),
+  # get random tree ids
+  tar_target(tree_ids, sample(1:length(tree), size = 5)),
+  # get subset of taxa
+  tar_target(taxa_ids, sample(mcc_tree$tip.label, size = 200)),
+  # fit ancestral state reconstruction model
+  tar_target(fit, fit_model(data, tree, tree_ids, taxa_ids))
 )

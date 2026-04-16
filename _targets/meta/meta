@@ -1,4 +1,13 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
 tree_file|stem|097e0a16f1431efe|1de9ec4cb0b83efe|2c530c1562a7fbd1|-419834672|data/tree/dplace.nxs|t20557.9999421296s|s55689082b|55689082|file|local|vector|||0.833||
+dplace_societies_url|stem|c3caf7f2ccd75161|aee14d29acec2be0|2c530c1562a7fbd1|17396771|https://raw.githubusercontent.com/D-PLACE/dplace-cldf/6c2008c187a297d1955b41d8ae80d8e31d404f6c/cldf/societies.csv|t20559.5284745028s||0|url|local|vector|||1.26||
+dplace_data_url|stem|e0e023be3db9dfae|14e703ec1d8b5d26|2c530c1562a7fbd1|545186855|https://raw.githubusercontent.com/D-PLACE/dplace-cldf/6c2008c187a297d1955b41d8ae80d8e31d404f6c/cldf/data.csv|t20559.528524704s||0|url|local|vector|||0||
+glottolog_languages_url|stem|f18a0e38130eafea|bbd54384d0ebe985|2c530c1562a7fbd1|1513706872|https://raw.githubusercontent.com/glottolog/glottolog-cldf/072ca0d0410039fb8b779be8fc165bac575d2cda/cldf/languages.csv|t20559.5285307766s||0|url|local|vector|||0||
+tree|stem|d3fef94fb1a65efb|7b4ee45d0a45de90|ebd48cae5adb8908|437279712||t20559.5285918793s|s27129434b|27129434|rds|local|vector|||3.446||
+mcc_tree|stem|fdacd01fa545910e|c47da3594f89d0e8|977498bc9f11c640|-2069454262||t20559.5287015969s|s33711b|33711|rds|local|vector|||9.379||
+data|stem|737c2c3b7746614a|b9cd236e90084022|159c4ef7574c4be0|33550471||t20559.528940547s|s31019b|31019|rds|local|vector|||20.627||
+tree_ids|stem|7a9c85b1e5113861|c1d120d50634628f|977498bc9f11c640|1609238890||t20559.546970951s|s62b|62|rds|local|vector|||0||
+fit_model|function|aa5b0ce3ca8c4834
 load_dplace_data|function|39e3a15ed321b6e2
-dplace_societies_url|stem||aee14d29acec2be0|2c530c1562a7fbd1|17396771|https://raw.githubusercontent.com/D-PLACE/dplace-cldf/6c2008c187a297d1955b41d8ae80d8e31d404f6c/cldf/societies.csv|t20558.7883530442s||0|url|local|vector|||||Error resolving output location: Timeout was reached [raw.githubusercontent.com]: Connection timed out after 10002 milliseconds
+taxa_ids|stem|1e59212aae7b6b42|fb793ca29f7c6ded|ca6aa49aee88f6b5|1776766147||t20559.5512362673s|s594b|594|rds|local|vector|||0||
+fit|stem|e65367bf539753b3|b10abb085e99ff68|5081b81e97a4acb3|150100524||t20559.5566161289s|s123128371b|123128371|rds|local|vector|||461.294||
