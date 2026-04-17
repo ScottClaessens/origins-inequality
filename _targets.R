@@ -51,6 +51,8 @@ list(
   tar_target(tree_ids, sample(1:length(tree), size = 10)),
   # fit ancestral state reconstruction model
   tar_target(fit, fit_model(data, tree, tree_ids)),
+  # get ancestral states
+  tar_target(ancestral_states, get_ancestral_states(tree, fit, tree_ids)),
   # plot results
-  tar_target(plot, plot_model(data, tree, fit, tree_ids))
+  tar_target(plot, plot_model(ancestral_states, tree, tree_ids))
 )

@@ -7,9 +7,11 @@ tree|stem|d3fef94fb1a65efb|7b4ee45d0a45de90|ebd48cae5adb8908|437279712||t20559.5
 mcc_tree|stem|fdacd01fa545910e|c47da3594f89d0e8|977498bc9f11c640|-2069454262||t20559.5287015969s|s33711b|33711|rds|local|vector|||9.379||
 data|stem|737c2c3b7746614a|b9cd236e90084022|159c4ef7574c4be0|33550471||t20559.528940547s|s31019b|31019|rds|local|vector|||20.627||
 taxa_ids|stem|0a3331e4ca378f5b|12e026f4a32af5f5|ca6aa49aee88f6b5|1776766147||t20559.6331953818s|s1307b|1307|rds|local|vector|||0||
-fit_model|function|328eed1d7a28d1e6
-load_dplace_data|function|39e3a15ed321b6e2
-plot_model|function|446836d030afe6f9
 tree_ids|stem|64628d059bb33abd|bb199b886fdd3ecb|977498bc9f11c640|1609238890||t20559.7139243978s|s76b|76|rds|local|vector|||0||
 fit|stem|ca720cbc41673ef6|91b7bf379f06034c|ded83aa80a4c87f9|150100524||t20559.8362815857s|s1231947128b|1231947128|rds|local|vector|||10538.116||
-plot|stem|4ed18efe0efe0235|3d06a4137de59e12|f7e3a8342e50278e|874984291||t20559.8374754776s|s1805868276b|1805868276|rds|local|vector|||38.882||
+ancestral_states|stem|504dc0114401b165|3fde49b0baa0fdef|e07a0362e795d787|-284757503||t20560.5734366912s|s1796292794b|1796292794|rds|local|vector|||8.432||
+plot|stem|defe34b91d2c75a7|0d5734e7da51219b|eef9f8651bcbbac3|874984291||t20560.6051336233s|s453336b|453336|rds|local|vector|||19.776||
+get_ancestral_states|function|6202fd9d7991ff59
+fit_model|function|328eed1d7a28d1e6
+load_dplace_data|function|39e3a15ed321b6e2
+plot_model|function|b39e0d30be0bd8db

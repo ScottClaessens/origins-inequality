@@ -22,4 +22,5 @@ fit_model <- function(data, tree, tree_ids) {
     iter_sampling = 400,
     seed = 1234
   )
+
 }

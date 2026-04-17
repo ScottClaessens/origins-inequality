@@ -1,128 +1,113 @@
 #' Plot results of ancestral state reconstruction model
 #'
-#' @param data Tibble of D-PLACE data
+#' @param ancestral_states Tibble of ancestral states from the model
 #' @param tree Tree object of class multiPhylo
-#' @param fit Fitted coevolve model
 #' @param tree_ids Indexes for trees
 #'
 #' @returns A ggplot object
 #'
-plot_model <- function(data, tree, fit, tree_ids) {
+plot_model <- function(ancestral_states, tree, tree_ids) {
   # use subset of trees
   tree <- tree[tree_ids]
-  # extract samples
-  post <- extract_samples(fit)
-  rm(fit)
-  # get ancestral states
-  ancestral_states <- tibble()
-  for (t in 1:length(tree_ids)) {
-    for (n in 1:Nnode(tree[t], internal.only = FALSE)) {
-      # get latent trait value
-      eta <- post$eta[, t, n, 1]
-      # get cumulative probabilities of each ordinal category
-      p <- plogis(post$c1 - eta)
-      # add row
-      ancestral_states <-
-        bind_rows(
-          ancestral_states,
-          tibble(
-            tree = t,
-            node = n,
-            eta = list(eta),
-            prob1 = list(p[, 1]),
-            prob2 = list(p[, 2] - p[, 1]),
-            prob3 = list(p[, 3] - p[, 2]),
-            prob4 = list(p[, 4] - p[, 3]),
-            prob5 = list(1 - p[, 4])
-          )
-        )
-    }
-  }
-  # cleanup
-  rm(post, t, n, p, eta)
-  # get every language family in D-PLACE with at least ten associated taxon
-  families <-
-    data |>
-    filter(!is.na(language_family)) |>
-    group_by(language_family) |>
-    summarise(n = n()) |>
-    filter(n >= 10) |>
-    pull(language_family)
-  # reconstruct most recent common ancestors for language families
-  family_reconstruct <- tibble()
-  # for all language families:
-  for (family in families) {
-    # get taxa in language family according to D-PLACE
-    taxa <- data$xd_id[data$language_family == family]
-    taxa <- taxa[!is.na(taxa)]
-    # then, for every tree:
-    for (t in 1:length(tree_ids)) {
-      # 1. get most recent common ancestor of taxa in language family
-      node_id <- getMRCA(tree[[t]], taxa)
-      # 2. record the node time
-      node_times <-
-        node.depth.edgelength(tree[[t]]) -
-        max(node.depth.edgelength(tree[[t]]))
-      node_time <- node_times[node_id]
-      # 3. record the posterior probability of inequality
-      post_prob <-
-        ancestral_states |>
-        filter(tree == t & node == node_id) |>
+  # for each tree, get internal nodes, times, and trait values
+  edges <-
+    tibble(tree_id = 1:length(tree_ids)) |>
+    mutate(
+      # get tree
+      tree = map(tree_id, function(tree_id) tree[[tree_id]]),
+      # get all edges in the tree
+      edges = map(tree, function(tree) tree$edge),
+      # get timings of the splits in the tree
+      times = map(tree, function(tree) {
+        node.depth.edgelength(tree) - max(node.depth.edgelength(tree))
+      }),
+      # get parent and child nodes
+      parent_node = map(edges, function(edges) edges[, 1]),
+      child_node = map(edges, function(edges) edges[, 2]),
+      # get start and end times
+      time_start = map2(times, edges, function(times, edges) times[edges[, 1]]),
+      time_end = map2(times, edges, function(times, edges) times[edges[, 2]])
+    ) |>
+    dplyr::select(-c(tree, edges, times)) |>
+    unnest(c(parent_node, child_node, time_start, time_end)) |>
+    left_join(
+      ancestral_states |>
         rowwise() |>
-        mutate(post = list(prob3 + prob4 + prob5)) |>
-        pull(post) |>
-        unlist()
-      # add row
-      family_reconstruct <-
-        bind_rows(
-          family_reconstruct,
-          tibble(
-            language_family = family,
-            tree = t,
-            node = node_id,
-            time = node_time,
-            prob = list(post_prob)
-          )
+        transmute(
+          tree_id = tree,
+          parent_node = node,
+          prob_start = list(prob3 + prob4 + prob5)
+        ),
+      by = c("tree_id", "parent_node")
+    ) |>
+    left_join(
+      ancestral_states |>
+        rowwise() |>
+        transmute(
+          tree_id = tree,
+          child_node = node,
+          prob_end = list(prob3 + prob4 + prob5)
+        ),
+      by = c("tree_id", "child_node")
+    )
+  # summarise lineages at time slices
+  out <-
+    map(seq(-20, -0.25, by = 0.25), function(t) {
+      edges |>
+        dplyr::select(!prob_end) |>
+        filter(time_start <= t & time_end > t) |>
+        mutate(n = n()) |>
+        unnest(c(prob_start)) |>
+        summarise(
+          time = t,
+          median = median(prob_start),
+          lower50 = quantile(prob_start, 0.25),
+          upper50 = quantile(prob_start, 0.75),
+          lower25 = quantile(prob_start, 0.375),
+          upper25 = quantile(prob_start, 0.625),
+          n = unique(n)
         )
-    }
-  }
-  # cleanup
-  rm(families, family, node_id, node_time, node_times, taxa, post_prob)
-  # plot language family reconstructions
-  family_reconstruct |>
-    unnest(c(prob)) |>
-    ggplot(
-      mapping = aes(
+    }) |>
+    list_rbind() |>
+    # plot time slices
+    ggplot() +
+    geom_ribbon(
+      aes(
         x = time,
-        y = log(prob) - log(1 - prob),
-        group = language_family
+        ymin = lower50,
+        ymax = upper50
+      ),
+      fill = "grey80"
+    ) +
+    geom_ribbon(
+      aes(
+        x = time,
+        ymin = lower25,
+        ymax = upper25
+      ),
+      fill = "grey50"
+    ) +
+    geom_line(
+      aes(
+        x = time,
+        y = median
       )
     ) +
-    stat_ellipse(
-      geom = "polygon",
-      type = "norm",
-      fill = "skyblue1",
-      level = 0.99
+    scale_x_continuous(name = "Time before present (thousands of years)") +
+    scale_y_continuous(
+      name = "Probability of inequality",
+      limits = c(0, 1)
     ) +
-    stat_ellipse(
-      geom = "polygon",
-      type = "norm",
-      fill = "skyblue2",
-      level = 0.90
-    ) +
-    stat_ellipse(
-      geom = "polygon",
-      type = "norm",
-      fill = "skyblue3",
-      level = 0.80
-    ) +
-    stat_ellipse(
-      geom = "polygon",
-      type = "norm",
-      fill = "skyblue4",
-      level = 0.50
-    ) +
-    scale_x_continuous(limits = c(-25, 1)) +
-    facet_wrap(. ~ language_family) +
     theme_classic()
+  # save plot and return
+  ggsave(
+    filename = "plots/results.pdf",
+    plot = out,
+    height = 4,
+    width = 5
+  )
+  # cleanup
+  rm(ancestral_states, edges, tree, tree_ids)
+  # return
+  out
 }
