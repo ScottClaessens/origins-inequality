@@ -2,7 +2,7 @@ library(targets)
 library(tarchetypes)
 
 tar_option_set(
-  packages = c("ape", "coevolve", "phangorn", "tidyverse")
+  packages = c("ape", "coevolve", "ggtree", "phangorn", "tidyverse")
 )
 tar_source()
 
@@ -48,9 +48,9 @@ list(
     )
   ),
   # get random tree ids
-  tar_target(tree_ids, sample(1:length(tree), size = 5)),
-  # get subset of taxa
-  tar_target(taxa_ids, sample(mcc_tree$tip.label, size = 200)),
+  tar_target(tree_ids, sample(1:length(tree), size = 10)),
   # fit ancestral state reconstruction model
-  tar_target(fit, fit_model(data, tree, tree_ids, taxa_ids))
+  tar_target(fit, fit_model(data, tree, tree_ids)),
+  # plot results
+  tar_target(plot, plot_model(data, tree, fit, tree_ids))
 )
