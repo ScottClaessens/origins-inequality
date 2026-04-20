@@ -6,12 +6,20 @@ glottolog_languages_url|stem|f18a0e38130eafea|bbd54384d0ebe985|2c530c1562a7fbd1|
 tree|stem|d3fef94fb1a65efb|7b4ee45d0a45de90|ebd48cae5adb8908|437279712||t20559.5285918793s|s27129434b|27129434|rds|local|vector|||3.446||
 mcc_tree|stem|fdacd01fa545910e|c47da3594f89d0e8|977498bc9f11c640|-2069454262||t20559.5287015969s|s33711b|33711|rds|local|vector|||9.379||
 data|stem|737c2c3b7746614a|b9cd236e90084022|159c4ef7574c4be0|33550471||t20559.528940547s|s31019b|31019|rds|local|vector|||20.627||
-taxa_ids|stem|0a3331e4ca378f5b|12e026f4a32af5f5|ca6aa49aee88f6b5|1776766147||t20559.6331953818s|s1307b|1307|rds|local|vector|||0||
-tree_ids|stem|64628d059bb33abd|bb199b886fdd3ecb|977498bc9f11c640|1609238890||t20559.7139243978s|s76b|76|rds|local|vector|||0||
-fit|stem|ca720cbc41673ef6|91b7bf379f06034c|ded83aa80a4c87f9|150100524||t20559.8362815857s|s1231947128b|1231947128|rds|local|vector|||10538.116||
-ancestral_states|stem|504dc0114401b165|3fde49b0baa0fdef|e07a0362e795d787|-284757503||t20560.5734366912s|s1796292794b|1796292794|rds|local|vector|||8.432||
-plot|stem|defe34b91d2c75a7|0d5734e7da51219b|eef9f8651bcbbac3|874984291||t20560.6051336233s|s453336b|453336|rds|local|vector|||19.776||
+tree_ids|stem|d7c90c31e7c436f9|185d5851ad31462b|977498bc9f11c640|1609238890||t20562.3644259944s|s104b|104|rds|local|vector|||0||
+fit|stem|26473b23409d2a85|91b7bf379f06034c|934d70434bf94c2b|150100524||t20562.6099831667s|s2465834086b|2465834086|rds|local|vector|||21146.397||
+ancestral_states|stem|3ddb041b2633dc90|3fde49b0baa0fdef|4069365ec9877cea|-284757503||t20562.6116523054s|s3599398613b|3599398613|rds|local|vector|||14.763||
+plot_South.America|stem|c11db4382b2040b9|de84371beb18f6d5|d6707d4f5ac7af7c|77122775||t20563.4951773458s|s458068b|458068|rds|local|vector|||65.736||
+plot_North.America|stem|cd48f9af53df9556|50a8278232a9a00b|d6707d4f5ac7af7c|-132805188||t20563.4961531796s|s459243b|459243|rds|local|vector|||71.546||
+plot_Africa|stem|a25d6160e25d54cc|82c8a78fbeabd231|d6707d4f5ac7af7c|1886352024||t20563.4973684028s|s462535b|462535|rds|local|vector|||91.926||
+plot_Asia|stem|f478b616b9c1c4c7|1a9a480053f7426d|d6707d4f5ac7af7c|373437526||t20563.4984591031s|s458205b|458205|rds|local|vector|||79.672||
+plot_Oceania|stem|76b60f1c4fa4b4de|9be33d6ca509c281|d6707d4f5ac7af7c|-2065759321||t20563.4995693462s|s462367b|462367|rds|local|vector|||81.659||
+plot_Global|stem|f6c006c7911a8790|d916e74a9ba95ab1|d6707d4f5ac7af7c|1369334778||t20563.5006214472s|s463237b|463237|rds|local|vector|||75.036||
+plot_Europe|stem|2bb598f601c64736|dec9b5a6e6129ca4|d6707d4f5ac7af7c|-1260971066||t20563.5013013167s|s450077b|450077|rds|local|vector|||44.366||
 get_ancestral_states|function|6202fd9d7991ff59
 fit_model|function|328eed1d7a28d1e6
 load_dplace_data|function|39e3a15ed321b6e2
-plot_model|function|b39e0d30be0bd8db
+plot_model|function|1415ade0a3fd8c63
+combine_plots|function|e965f332fa5c9987
+sessionInfo|stem|32f7f6a60f0d745f|6f338939dd102f8f|2c530c1562a7fbd1|1164010252||t20563.5159525909s|s44b|44|rds|local|vector|||1.354||
+combined_plots|stem|9f9f2e69cfe259f9|3dc3773ddcb9002c|bc71d9fde184c64a|1038530895||t20563.5159772979s|s3314297b|3314297|rds|local|vector|||0.748|Removed 63 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 63 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 63 rows containing missing values or values outside the scale range (`geom_line()`).. Removed 14 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 14 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 14 rows containing missing values or values outside the scale range (`geom_line()`).. Removed 24 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 24 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 24 rows containing missing values or values outside the scale range (`geom_line()`).|
