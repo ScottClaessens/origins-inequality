@@ -86,6 +86,8 @@ list(
       )
     )
   ),
+  # produce report
+  tar_quarto(report, "quarto/report.qmd", quiet = FALSE),
   # print session info
   tar_target(
     sessionInfo,

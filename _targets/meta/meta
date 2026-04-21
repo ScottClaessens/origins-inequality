@@ -27,10 +27,11 @@ plot_Indo.European|stem|5867e3c63a8a6a81|23fbeaa2fbeb8d71|a6055bc6c4d5027a|37969
 plot_Nilotic|stem|f4a76bc77b834b0a|0166e8ba163260fe|a6055bc6c4d5027a|-1377115540||t20564.4053126804s|s455001b|455001|rds|local|vector|||107.144||
 plot_Sino.Tibetan|stem|853ab853aec0beaf|0e0a30185bd6c8fc|a6055bc6c4d5027a|-699653363||t20564.4064958162s|s454205b|454205|rds|local|vector|||91.742||
 combined_plots|stem|89d7c71128e2e07e|bab1fae7b4109ad4|26d243874e2c856c|1038530895||t20564.4065631515s|s7341670b|7341670|rds|local|vector|||1.357||
+plot_tree_states|stem|ec5a25f89fa77615|f2e15db9679d3c71|a97c61c62eaf21de|-946372951||t20564.4411154885s|s3615171876b|3615171876|rds|local|vector|||2.113|Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0. ℹ Please use `linewidth` instead. ℹ The deprecated feature was likely used in the ggtree package.   Please report the issue at <https://github.com/YuLab-SMU/ggtree/issues>.. Unknown or uninitialised column: `subgroup`.. Unknown or uninitialised column: `subgroup`.. Unknown or uninitialised column: `subgroup`.. Unknown or uninitialised column: `subgroup`.|
 get_ancestral_states|function|6202fd9d7991ff59
 fit_model|function|328eed1d7a28d1e6
 plot_tree|function|4931d7db0ba38135
 load_dplace_data|function|39e3a15ed321b6e2
 plot_model|function|e6a1797fdd1b9a4b
 combine_plots|function|18c36850683454fb
-plot_tree_states|stem|ec5a25f89fa77615|f2e15db9679d3c71|a97c61c62eaf21de|-946372951||t20564.4411154885s|s3615171876b|3615171876|rds|local|vector|||2.113|Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0. ℹ Please use `linewidth` instead. ℹ The deprecated feature was likely used in the ggtree package.   Please report the issue at <https://github.com/YuLab-SMU/ggtree/issues>.. Unknown or uninitialised column: `subgroup`.. Unknown or uninitialised column: `subgroup`.. Unknown or uninitialised column: `subgroup`.. Unknown or uninitialised column: `subgroup`.|
+report|stem|6dde820a41e1f19d|140bc5cd60b32167|b57b523d0a4a9b0f|787668912|quarto/report.pdf*quarto/report.qmd|t20564.573823903s|s193035b|193035|file|local|vector|||50.031||
