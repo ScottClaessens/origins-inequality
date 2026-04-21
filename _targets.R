@@ -56,6 +56,11 @@ list(
   tar_target(fit, fit_model(data, tree, tree_ids)),
   # get ancestral states
   tar_target(ancestral_states, get_ancestral_states(tree, fit, tree_ids)),
+  # plot tree
+  tar_target(
+    plot_tree_states,
+    plot_tree(data, tree, tree_ids, ancestral_states)
+  ),
   # plot results globally and by language family
   tar_target(plot_Global, plot_model(data, ancestral_states, tree, tree_ids)),
   tar_map(
