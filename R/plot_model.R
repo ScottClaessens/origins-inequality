@@ -149,7 +149,7 @@ plot_model <- function(data, ancestral_states, tree, tree_ids,
     ) +
     ggtitle(ifelse(!is.null(family), family, "Global")) +
     theme_classic() +
-    theme(plot.title = element_text(size = 7))
+    theme(plot.title = element_text(size = 9))
   # cleanup
   rm(data, ancestral_states, edges, tree, tree_ids)
   # return
