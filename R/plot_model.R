@@ -3,55 +3,13 @@
 #' @param ancestral_states Tibble of ancestral states from the model
 #' @param tree Tree object of class multiPhylo
 #' @param tree_ids Indexes for trees
-#' @param continent (optional) Character: Africa, Asia, Europe, North America,
-#'   Oceania, or South America. Resulting plot will summarise only those
-#'   lineages where all descendant taxa are on a particular continent.
+#' @param family (optional) Character. Resulting plot will summarise
+#'   only ancestral nodes for taxa in a particular language family.
 #'
 #' @returns A ggplot object
 #'
 plot_model <- function(data, ancestral_states, tree, tree_ids,
-                       continent = NULL) {
-  # link dplace regions to continents
-  regions <-
-    list(
-      Africa =
-        c("East Tropical Africa", "Macaronesia", "Northeast Tropical Africa",
-          "Northern Africa", "South Tropical Africa", "Southern Africa",
-          "West Tropical Africa", "West-Central Tropical Africa",
-          "Western Indian Ocean"),
-      Asia =
-        c("Arabian Peninsula", "Caucasus", "China", "Eastern Asia",
-          "Indian Subcontinent", "Indo-China", "Malesia", "Middle Asia",
-          "Mongolia", "Russian Far East", "Siberia", "Western Asia"),
-      Europe =
-        c("Eastern Europe", "Middle Europe", "Northern Europe",
-          "Southeastern Europe", "Southwestern Europe", "Subantarctic Islands"),
-      `North America` =
-        c("Caribbean", "Central America", "Eastern Canada", "Mexico",
-          "North-Central U.S.A.", "Northeastern U.S.A.", "Northwestern U.S.A.",
-          "South-Central U.S.A.", "Southeastern U.S.A.", "Southwestern U.S.A.",
-          "Subarctic America", "Western Canada"),
-      Oceania =
-        c("Australia", "New Zealand", "North-Central Pacific",
-          "Northwestern Pacific", "Papuasia", "South-Central Pacific",
-          "Southwestern Pacific"),
-      `South America` =
-        c("Brazil", "Northern South America", "Southern South America",
-          "Western South America")
-    )
-  # match continents and add to data
-  data$continent <- as.vector(
-    unlist(
-      sapply(
-        data$region,
-        function(x) {
-          names(regions)[unlist(lapply(regions, function(y) x %in% y))]
-        }
-      )
-    )
-  )
-  # tricky to classify continent one society, set to NA
-  data$continent[data$region == "Subantarctic Islands"] <- NA
+                       family = NULL) {
   # use subset of trees
   tree <- tree[tree_ids]
   # for each tree, get internal nodes, times, and trait values
@@ -95,35 +53,32 @@ plot_model <- function(data, ancestral_states, tree, tree_ids,
         ),
       by = c("tree_id", "child_node")
     )
-  # if continent specified, filter to lineages where all
-  # descendant taxa are on a particular continent
-  if (!is.null(continent)) {
+  # if family specified, filter to ancestors of taxa in the language family
+  if (!is.null(family)) {
     edges <-
       edges |>
       mutate(
-        # are all descendant taxa on the specified continent?
-        all_descendant_taxa_on_continent =
+        # is this node an ancestral node for taxa in this language family?
+        is_ancestor =
           map2(tree_id, parent_node, function(tree_id, parent_node) {
-            # get taxa ids for descendant taxa
-            taxa_ids <- Descendants(
-              x = tree[[tree_id]],
-              node = parent_node,
-              type = "tips"
-            )
-            # get tip labels for descendant taxa
-            taxa <- tree[[tree_id]]$tip.label[taxa_ids[[1]]]
-            # get continents for descendant taxa
-            continents <-
+            # get taxa in language family according to glottolog
+            taxa <-
               data |>
-              filter(xd_id %in% taxa) |>
-              pull(continent)
-            # are all taxa on the specified continent?
-            all(continents == continent)
+              filter(!is.na(language_family) & language_family == family) |>
+              pull(xd_id)
+            # get all ancestor nodes
+            ancestors <- Ancestors(
+              x = tree[[tree_id]],
+              node = taxa,
+              type = "all"
+            )
+            # is the current node in the list of ancestors?
+            parent_node %in% unlist(ancestors)
           })
       ) |>
-      # filter to lineages where all descendant taxa are on specified continent
-      unnest(all_descendant_taxa_on_continent) |>
-      filter(all_descendant_taxa_on_continent)
+      # filter to ancestors only
+      unnest(is_ancestor) |>
+      filter(is_ancestor)
   }
   # summarise lineages at time slices
   out <-
@@ -192,8 +147,9 @@ plot_model <- function(data, ancestral_states, tree, tree_ids,
       name = "Probability of inequality",
       limits = c(0, 1)
     ) +
-    ggtitle(ifelse(!is.null(continent), continent, "Global")) +
-    theme_classic()
+    ggtitle(ifelse(!is.null(family), family, "Global")) +
+    theme_classic() +
+    theme(plot.title = element_text(size = 7))
   # cleanup
   rm(data, ancestral_states, edges, tree, tree_ids)
   # return

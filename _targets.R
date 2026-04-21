@@ -56,21 +56,30 @@ list(
   tar_target(fit, fit_model(data, tree, tree_ids)),
   # get ancestral states
   tar_target(ancestral_states, get_ancestral_states(tree, fit, tree_ids)),
-  # plot results globally and by continent
+  # plot results globally and by language family
   tar_target(plot_Global, plot_model(data, ancestral_states, tree, tree_ids)),
   tar_map(
     values = tibble(
-      continent = c("Africa", "Asia", "Europe", "North America",
-                    "Oceania", "South America")
+      family = c("Atlantic-Congo", "Austronesian", "Afro-Asiatic",
+                 "Uto-Aztecan", "Indo-European", "Nilotic", "Algic",
+                 "Athabaskan-Eyak-Tlingit", "Sino-Tibetan", "Mande", "Salishan",
+                 "Uralic", "Eskimo-Aleut", "Austroasiatic", "Dravidian")
     ),
     tar_target(plot, plot_model(data, ancestral_states, tree, tree_ids,
-                                continent = continent))
+                                family = family))
   ),
   # combine plots
   tar_target(
     combined_plots,
-    combine_plots(plot_Global, plot_Africa, plot_Asia, plot_Europe,
-                  plot_North.America, plot_Oceania, plot_South.America)
+    combine_plots(
+      list(
+        plot_Global, plot_Atlantic.Congo, plot_Austronesian, plot_Afro.Asiatic,
+        plot_Uto.Aztecan, plot_Indo.European, plot_Nilotic, plot_Algic,
+        plot_Athabaskan.Eyak.Tlingit, plot_Sino.Tibetan, plot_Mande,
+        plot_Salishan, plot_Uralic, plot_Eskimo.Aleut, plot_Austroasiatic,
+        plot_Dravidian
+      )
+    )
   ),
   # print session info
   tar_target(
