@@ -17,139 +17,125 @@
 #'
 plot_model <- function(data, fit, tree, tree_id, family = NULL,
                        start_time = -20, end_time = -0.25, time_slice = 0.25) {
-  # get ancestral states
-  d <-
-    fit |>
-    dplyr::select(c(tree_id, ends_with("P(3)") & !starts_with("Root"))) |>
-    pivot_longer(
-      cols = !tree_id,
-      names_to = "node",
-      values_to = "prob_inequality"
-    ) |>
-    mutate(node = parse_number(str_sub(node, 2, 5))) |>
-    group_by(tree_id, node) |>
-    summarise(
-      prob_inequality = list(prob_inequality),
+
+  # get sequence of time slices
+  times_seq <- seq(start_time, end_time, by = time_slice)
+
+  # loop over trees
+  results <- lapply(tree_id, function(id) {
+
+    # get tree
+    tree_obj <- tree[[id]]
+
+    # extract edges and timings
+    edges <- tree_obj$edge
+    times <- ape::node.depth.edgelength(tree_obj)
+    times <- times - max(times)
+    parent_node <- edges[, 1]
+    child_node <- edges[, 2]
+    time_start <- times[parent_node]
+    time_end <- times[child_node]
+
+    # get posterior samples for this tree
+    prob_matrix <-
+      fit |>
+      filter(tree_id == id) |>
+      dplyr::select(ends_with("P(3)") & !starts_with("Root")) |>
+      as.matrix()
+
+    colnames(prob_matrix) <-
+      parse_number(str_sub(colnames(prob_matrix), 2, 5))
+
+    # family filtering (once per tree)
+    if (!is.null(family)) {
+
+      # get taxa in language family
+      taxa <-
+        data |>
+        filter(!is.na(language_family) & language_family == family) |>
+        pull(xd_id)
+
+      # get most recent common ancestor
+      mrca <- ape::getMRCA(tree_obj, taxa)
+
+      # get ancestors
+      ancestors <- unique(unlist(
+        phangorn::Ancestors(tree_obj, node = taxa, type = "all")
+      ))
+
+      # retain ancestors younger than mrca
+      ancestors <- ancestors[ancestors >= mrca]
+
+      # filter to family
+      keep <- parent_node %in% ancestors
+      parent_node <- parent_node[keep]
+      child_node <- child_node[keep]
+      time_start <- time_start[keep]
+      time_end <- time_end[keep]
+    }
+
+    # time slicing (vectorised)
+    tree_res <- lapply(times_seq, function(t) {
+
+      # is lineage active at this time?
+      active <- (time_start <= t) & (time_end > t)
+
+      # number of lineages active
+      n_lineages <- sum(active)
+
+      # if no lineages, return empty tibble
+      if (n_lineages == 0) {
+        return(
+          tibble(
+            id = id,
+            time = t,
+            means = NA,
+            n_lineages = 0
+          )
+        )
+      }
+
+      # filter posterior samples to active lineages
+      mat <- prob_matrix[, as.character(parent_node)[active], drop = FALSE]
+
+      # average across active lineages
+      means <- rowMeans(mat)
+
+      # return tibble
+      tibble(
+        id = id,
+        time = t,
+        means = list(means),
+        n_lineages = n_lineages
+      )
+    })
+
+    # bind results
+    do.call(rbind, tree_res)
+
+  })
+
+  out <- do.call(rbind, results)
+
+  # aggregate across trees
+  out_summary <-
+    out |>
+    unnest(means) |>
+    group_by(time) |>
+    dplyr::summarise(
+      median  = median(means, na.rm = TRUE),
+      lower95 = quantile(means, 0.025, na.rm = TRUE),
+      upper95 = quantile(means, 0.975, na.rm = TRUE),
+      lower50 = quantile(means, 0.375, na.rm = TRUE),
+      upper50 = quantile(means, 0.625, na.rm = TRUE),
+      lower25 = quantile(means, 0.025, na.rm = TRUE),
+      upper25 = quantile(means, 0.975, na.rm = TRUE),
       .groups = "drop"
-    ) |>
-    rename(id = tree_id) |>
-    ungroup()
-  # for each tree, get internal nodes, times, and trait values
-  edges <-
-    tibble(id = tree_id) |>
-    mutate(
-      # get tree
-      tree = map(id, function(id) tree[[id]]),
-      # get all edges in the tree
-      edges = map(tree, function(tree) tree$edge),
-      # get timings of the splits in the tree
-      times = map(tree, function(tree) {
-        node.depth.edgelength(tree) - max(node.depth.edgelength(tree))
-      }),
-      # get parent and child nodes
-      parent_node = map(edges, function(edges) edges[, 1]),
-      child_node = map(edges, function(edges) edges[, 2]),
-      # get start and end times
-      time_start = map2(times, edges, function(times, edges) times[edges[, 1]]),
-      time_end = map2(times, edges, function(times, edges) times[edges[, 2]])
-    ) |>
-    dplyr::select(-c(tree, edges, times)) |>
-    unnest(c(parent_node, child_node, time_start, time_end)) |>
-    left_join(
-      transmute(
-        d,
-        id = id,
-        parent_node = node,
-        prob_start = prob_inequality
-      ),
-      by = c("id", "parent_node")
-    ) |>
-    left_join(
-      transmute(
-        d,
-        id = id,
-        child_node = node,
-        prob_end = prob_inequality
-      ),
-      by = c("id", "child_node")
     )
-  # if family specified, filter to ancestors of taxa in the language family
-  if (!is.null(family)) {
-    edges <-
-      edges |>
-      mutate(
-        # is this node an ancestral node for taxa in this language family?
-        is_ancestor =
-          map2(id, parent_node, function(id, parent_node) {
-            # get taxa in language family according to glottolog
-            taxa <-
-              data |>
-              filter(!is.na(language_family) & language_family == family) |>
-              pull(xd_id)
-            # get most recent common ancestor
-            mrca <-
-              getMRCA(
-                phy = tree[[id]],
-                tip = taxa
-              )
-            # get all ancestral nodes
-            ancestors <-
-              Ancestors(
-                x = tree[[id]],
-                node = taxa,
-                type = "all"
-              )
-            # keep only mrca and younger
-            ancestors <- unlist(ancestors)
-            ancestors <- unique(ancestors[ancestors >= mrca])
-            # is the current node in the list of ancestors?
-            parent_node %in% ancestors
-          })
-      ) |>
-      # filter to ancestors only
-      unnest(is_ancestor) |>
-      filter(is_ancestor)
-  }
-  # summarise lineages at time slices
-  out <-
-    map(seq(start_time, end_time, by = time_slice), function(t) {
-      # get number of posterior samples
-      n_samples <- length(edges$prob_start[[1]])
-      # wrangle data
-      edges |>
-        dplyr::select(!prob_end) |>
-        # filter to lineages alive at time t
-        filter(time_start <= t & time_end > t) |>
-        # get number of lineages alive at time t
-        mutate(n_lineages = n()) |>
-        # unnest posterior samples
-        unnest(c(prob_start)) |>
-        # add index for each posterior sample
-        mutate(iter = rep_len(1:n_samples, length.out = n())) |>
-        # get average across lineages
-        group_by(id, iter) |>
-        summarise(
-          prob_start = mean(prob_start),
-          n_lineages = unique(n_lineages),
-          .groups = "drop"
-        ) |>
-        # summary of posterior samples
-        summarise(
-          time = t,
-          median = median(prob_start),
-          lower95 = quantile(prob_start, 0.975),
-          upper95 = quantile(prob_start, 0.025),
-          lower50 = quantile(prob_start, 0.25),
-          upper50 = quantile(prob_start, 0.75),
-          lower25 = quantile(prob_start, 0.375),
-          upper25 = quantile(prob_start, 0.625),
-          n_lineages = median(n_lineages)
-        ) |>
-        mutate(n_lineages = ifelse(is.na(n_lineages), 0, n_lineages))
-    }) |>
-    list_rbind() |>
-    # plot time slices
-    ggplot() +
+
+  # plot time slices
+  p <-
+    ggplot(data = out_summary) +
     geom_hline(
       yintercept = 1/3,
       linewidth = 0.1,
@@ -197,7 +183,8 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
     theme_classic() +
     theme(plot.title = element_text(size = 9))
   # cleanup
-  rm(d, data, edges, fit, tree, family, tree_id)
+  rm(data, fit, out, out_summary, results, tree, start_time, end_time,
+     time_slice, times_seq, tree_id, family)
   # return
-  out
+  p
 }
