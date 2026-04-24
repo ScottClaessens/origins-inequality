@@ -150,13 +150,19 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
     list_rbind() |>
     # plot time slices
     ggplot() +
+    geom_hline(
+      yintercept = 1/3,
+      linewidth = 0.1,
+      linetype = "dashed"
+    ) +
     geom_ribbon(
       aes(
         x = time,
         ymin = lower95,
         ymax = upper95
       ),
-      fill = "grey90"
+      fill = "grey90",
+      alpha = 0.5
     ) +
     geom_ribbon(
       aes(
@@ -164,7 +170,8 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
         ymin = lower50,
         ymax = upper50
       ),
-      fill = "grey80"
+      fill = "grey80",
+      alpha = 0.5
     ) +
     geom_ribbon(
       aes(
@@ -172,7 +179,8 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
         ymin = lower25,
         ymax = upper25
       ),
-      fill = "grey70"
+      fill = "grey70",
+      alpha = 0.5
     ) +
     geom_line(
       aes(

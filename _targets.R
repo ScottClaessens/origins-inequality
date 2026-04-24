@@ -69,7 +69,8 @@ list(
     plot_tree(data, tree, tree_id, fit)
   ),
   # plot results globally and by language family
-  tar_target(plot_Global, plot_model(data, fit, tree, tree_id)),
+  tar_target(plot_Global, plot_model(data, fit, tree, tree_id,
+                                     end_time = -0.2, time_slice = 0.2)),
   tar_map(
     values = tibble(
       family = c("Atlantic-Congo", "Austronesian", "Afro-Asiatic",
@@ -77,7 +78,8 @@ list(
                  "Athabaskan-Eyak-Tlingit", "Sino-Tibetan", "Mande", "Salishan",
                  "Uralic", "Eskimo-Aleut", "Austroasiatic", "Dravidian")
     ),
-    tar_target(plot, plot_model(data, fit, tree, tree_id, family = family))
+    tar_target(plot, plot_model(data, fit, tree, tree_id, family = family,
+                                end_time = -0.2, time_slice = 0.2))
   ),
   # combine plots
   tar_target(
