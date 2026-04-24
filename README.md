@@ -13,7 +13,7 @@ the following R packages:
 
 ```r
 install.packages(
-  c("ape", "ggtree", "patchwork", "phangorn", 
+  c("ape", "crew", "ggtree", "patchwork", "phangorn", 
     "rstan", "tarchetypes", "targets", "tidyverse")
 )
 ```
