@@ -6,10 +6,17 @@
 #' @param tree_id Indexes for trees
 #' @param family (optional) Character. Resulting plot will summarise
 #'   only ancestral nodes for taxa in a particular language family.
+#' @param start_time Start of the time window (thousands of years before
+#'   present). Defaults to -20.
+#' @param end_time End of the time window (thousands of years before
+#'   present). Defaults to -0.25.
+#' @param time_slice How frequently to take time slices (in thousands of years
+#'   before present). Defaults to 0.25.
 #'
 #' @returns A ggplot object
 #'
-plot_model <- function(data, fit, tree, tree_id, family = NULL) {
+plot_model <- function(data, fit, tree, tree_id, family = NULL,
+                       start_time = -20, end_time = -0.25, time_slice = 0.25) {
   # get ancestral states
   d <-
     fit |>
@@ -105,7 +112,7 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL) {
   }
   # summarise lineages at time slices
   out <-
-    map(seq(-20, -0.25, by = 0.25), function(t) {
+    map(seq(start_time, end_time, by = time_slice), function(t) {
       # get number of posterior samples
       n_samples <- length(edges$prob_start[[1]])
       # wrangle data
