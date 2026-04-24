@@ -79,14 +79,24 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL) {
               data |>
               filter(!is.na(language_family) & language_family == family) |>
               pull(xd_id)
-            # get all ancestor nodes
-            ancestors <- Ancestors(
-              x = tree[[id]],
-              node = taxa,
-              type = "all"
-            )
+            # get most recent common ancestor
+            mrca <-
+              getMRCA(
+                phy = tree[[id]],
+                tip = taxa
+              )
+            # get all ancestral nodes
+            ancestors <-
+              Ancestors(
+                x = tree[[id]],
+                node = taxa,
+                type = "all"
+              )
+            # keep only mrca and younger
+            ancestors <- unlist(ancestors)
+            ancestors <- unique(ancestors[ancestors >= mrca])
             # is the current node in the list of ancestors?
-            parent_node %in% unlist(ancestors)
+            parent_node %in% ancestors
           })
       ) |>
       # filter to ancestors only
