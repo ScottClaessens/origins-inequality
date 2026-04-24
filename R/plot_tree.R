@@ -134,6 +134,8 @@ plot_tree <- function(data, tree, tree_id, fit) {
     height = 10,
     width = 10
   )
+  # cleanup
+  rm(data, tree, tree_id, fit, id, d, dd, taxa_bookends, node)
   # return
   out
 }

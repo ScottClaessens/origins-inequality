@@ -42,7 +42,7 @@ fit_model <- function(data, tree, tree_id, chain) {
       "1",                       # multistate
       "2",                       # mcmc
       "HyperPriorAll exp 0 10",  # priors
-      "Iterations 200000",       # number of iterations
+      "Iterations 250000",       # number of iterations
       paste("Seed", chain)       # seed
     )
   # declare ancestral states for all internal nodes in the tree

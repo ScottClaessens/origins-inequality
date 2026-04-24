@@ -1,10 +1,13 @@
 options(tidyverse.quiet = TRUE)
+library(crew)
 library(targets)
 library(tarchetypes)
 library(tidyverse)
 
 tar_option_set(
-  packages = c("ape", "ggtree", "patchwork", "phangorn", "rstan", "tidyverse")
+  packages = c("ape", "ggtree", "patchwork", "phangorn", "rstan", "tidyverse"),
+  controller = crew_controller_local(workers = 8),
+  deployment = "main"
 )
 tar_source()
 
@@ -50,14 +53,18 @@ list(
     )
   ),
   # get tree ids
-  tar_target(tree_id, sample(1:length(tree), size = 10, replace = FALSE)),
+  tar_target(tree_id, sample(1:length(tree), size = 100, replace = FALSE)),
   # get independent mcmc chains
   tar_target(chain, 1:4),
   # fit ancestral state reconstruction model
   tar_target(
     fit,
     fit_model(data, tree, tree_id, chain),
-    pattern = cross(tree_id, chain)
+    pattern = cross(tree_id, chain),
+    # run in parallel
+    deployment = "worker",
+    storage = "worker",
+    retrieval = "worker"
   ),
   # calculate model diagnostics
   tar_target(model_diagnostics, calculate_model_diagnostics(fit)),

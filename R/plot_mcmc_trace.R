@@ -47,6 +47,8 @@ plot_mcmc_trace <- function(fit, tree_id) {
     height = 4,
     width = 6
   )
+  # cleanup
+  rm(fit, tree_id, id)
   # return
   out
 }
