@@ -4,8 +4,7 @@ library(tarchetypes)
 library(tidyverse)
 
 tar_option_set(
-  packages = c("ape", "coevolve", "ggtree", "patchwork",
-               "phangorn", "tidyverse")
+  packages = c("ape", "ggtree", "patchwork", "phangorn", "rstan", "tidyverse")
 )
 tar_source()
 
@@ -50,19 +49,27 @@ list(
       glottolog_languages_url, mcc_tree
     )
   ),
-  # get random tree ids
-  tar_target(tree_ids, sample(1:length(tree), size = 20)),
+  # get tree ids
+  tar_target(tree_id, sample(1:length(tree), size = 10, replace = FALSE)),
+  # get independent mcmc chains
+  tar_target(chain, 1:4),
   # fit ancestral state reconstruction model
-  tar_target(fit, fit_model(data, tree, tree_ids)),
-  # get ancestral states
-  tar_target(ancestral_states, get_ancestral_states(tree, fit, tree_ids)),
+  tar_target(
+    fit,
+    fit_model(data, tree, tree_id, chain),
+    pattern = cross(tree_id, chain)
+  ),
+  # calculate model diagnostics
+  tar_target(model_diagnostics, calculate_model_diagnostics(fit)),
+  # get trace plot
+  tar_target(plot_trace, plot_mcmc_trace(fit, tree_id = tree_id[1])),
   # plot tree
   tar_target(
     plot_tree_states,
-    plot_tree(data, tree, tree_ids, ancestral_states)
+    plot_tree(data, tree, tree_id, fit)
   ),
   # plot results globally and by language family
-  tar_target(plot_Global, plot_model(data, ancestral_states, tree, tree_ids)),
+  tar_target(plot_Global, plot_model(data, fit, tree, tree_id)),
   tar_map(
     values = tibble(
       family = c("Atlantic-Congo", "Austronesian", "Afro-Asiatic",
@@ -70,8 +77,7 @@ list(
                  "Athabaskan-Eyak-Tlingit", "Sino-Tibetan", "Mande", "Salishan",
                  "Uralic", "Eskimo-Aleut", "Austroasiatic", "Dravidian")
     ),
-    tar_target(plot, plot_model(data, ancestral_states, tree, tree_ids,
-                                family = family))
+    tar_target(plot, plot_model(data, fit, tree, tree_id, family = family))
   ),
   # combine plots
   tar_target(
@@ -86,8 +92,8 @@ list(
       )
     )
   ),
-  # produce report
-  tar_quarto(report, "quarto/report.qmd", quiet = FALSE),
+  ## produce report
+  #tar_quarto(report, "quarto/report.qmd", quiet = FALSE),
   # print session info
   tar_target(
     sessionInfo,

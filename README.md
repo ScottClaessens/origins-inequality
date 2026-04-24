@@ -13,11 +13,15 @@ the following R packages:
 
 ```r
 install.packages(
-  c("ape", "cmdstanr", "devtools", "ggtree", "patchwork", "phangorn", 
-    "tarchetypes", "targets", "tidyverse")
+  c("ape", "ggtree", "patchwork", "phangorn", 
+    "rstan", "tarchetypes", "targets", "tidyverse")
 )
-devtools::install_github("ScottClaessens/coevolve")
 ```
+
+You will also need to download the software BayesTraits V5.0.3 from 
+[here](https://www.evolution.reading.ac.uk/BayesTraitsV5.0.3/BayesTraitsV5.0.3.html)
+and copy the executable file `BayesTraitsV5` into the `/bayestraits` folder
+of this repository.
 
 ### Execute code
 

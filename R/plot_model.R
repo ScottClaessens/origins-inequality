@@ -1,23 +1,38 @@
 #' Plot results of ancestral state reconstruction model
 #'
-#' @param ancestral_states Tibble of ancestral states from the model
+#' @param data Tibble of D-PLACE data
+#' @param fit Results of fitted model
 #' @param tree Tree object of class multiPhylo
-#' @param tree_ids Indexes for trees
+#' @param tree_id Indexes for trees
 #' @param family (optional) Character. Resulting plot will summarise
 #'   only ancestral nodes for taxa in a particular language family.
 #'
 #' @returns A ggplot object
 #'
-plot_model <- function(data, ancestral_states, tree, tree_ids,
-                       family = NULL) {
-  # use subset of trees
-  tree <- tree[tree_ids]
+plot_model <- function(data, fit, tree, tree_id, family = NULL) {
+  # get ancestral states
+  d <-
+    fit |>
+    dplyr::select(c(tree_id, ends_with("P(3)") & !starts_with("Root"))) |>
+    pivot_longer(
+      cols = !tree_id,
+      names_to = "node",
+      values_to = "prob_inequality"
+    ) |>
+    mutate(node = parse_number(str_sub(node, 2, 5))) |>
+    group_by(tree_id, node) |>
+    summarise(
+      prob_inequality = list(prob_inequality),
+      .groups = "drop"
+    ) |>
+    rename(id = tree_id) |>
+    ungroup()
   # for each tree, get internal nodes, times, and trait values
   edges <-
-    tibble(tree_id = 1:length(tree_ids)) |>
+    tibble(id = tree_id) |>
     mutate(
       # get tree
-      tree = map(tree_id, function(tree_id) tree[[tree_id]]),
+      tree = map(id, function(id) tree[[id]]),
       # get all edges in the tree
       edges = map(tree, function(tree) tree$edge),
       # get timings of the splits in the tree
@@ -34,24 +49,22 @@ plot_model <- function(data, ancestral_states, tree, tree_ids,
     dplyr::select(-c(tree, edges, times)) |>
     unnest(c(parent_node, child_node, time_start, time_end)) |>
     left_join(
-      ancestral_states |>
-        rowwise() |>
-        transmute(
-          tree_id = tree,
-          parent_node = node,
-          prob_start = list(prob3 + prob4 + prob5)
-        ),
-      by = c("tree_id", "parent_node")
+      transmute(
+        d,
+        id = id,
+        parent_node = node,
+        prob_start = prob_inequality
+      ),
+      by = c("id", "parent_node")
     ) |>
     left_join(
-      ancestral_states |>
-        rowwise() |>
-        transmute(
-          tree_id = tree,
-          child_node = node,
-          prob_end = list(prob3 + prob4 + prob5)
-        ),
-      by = c("tree_id", "child_node")
+      transmute(
+        d,
+        id = id,
+        child_node = node,
+        prob_end = prob_inequality
+      ),
+      by = c("id", "child_node")
     )
   # if family specified, filter to ancestors of taxa in the language family
   if (!is.null(family)) {
@@ -60,7 +73,7 @@ plot_model <- function(data, ancestral_states, tree, tree_ids,
       mutate(
         # is this node an ancestral node for taxa in this language family?
         is_ancestor =
-          map2(tree_id, parent_node, function(tree_id, parent_node) {
+          map2(id, parent_node, function(id, parent_node) {
             # get taxa in language family according to glottolog
             taxa <-
               data |>
@@ -68,7 +81,7 @@ plot_model <- function(data, ancestral_states, tree, tree_ids,
               pull(xd_id)
             # get all ancestor nodes
             ancestors <- Ancestors(
-              x = tree[[tree_id]],
+              x = tree[[id]],
               node = taxa,
               type = "all"
             )
@@ -97,7 +110,7 @@ plot_model <- function(data, ancestral_states, tree, tree_ids,
         # add index for each posterior sample
         mutate(iter = rep_len(1:n_samples, length.out = n())) |>
         # get average across lineages
-        group_by(iter, tree_id) |>
+        group_by(id, iter) |>
         summarise(
           prob_start = median(prob_start),
           n_lineages = unique(n_lineages),
@@ -120,6 +133,14 @@ plot_model <- function(data, ancestral_states, tree, tree_ids,
     list_rbind() |>
     # plot time slices
     ggplot() +
+    geom_ribbon(
+      aes(
+        x = time,
+        ymin = lower95,
+        ymax = upper95
+      ),
+      fill = "grey90"
+    ) +
     geom_ribbon(
       aes(
         x = time,
@@ -151,7 +172,7 @@ plot_model <- function(data, ancestral_states, tree, tree_ids,
     theme_classic() +
     theme(plot.title = element_text(size = 9))
   # cleanup
-  rm(data, ancestral_states, edges, tree, tree_ids)
+  rm(d, data, edges, fit, tree, family, tree_id)
   # return
   out
 }
