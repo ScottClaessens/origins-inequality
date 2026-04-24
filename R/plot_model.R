@@ -129,7 +129,7 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
         # get average across lineages
         group_by(id, iter) |>
         summarise(
-          prob_start = median(prob_start),
+          prob_start = mean(prob_start),
           n_lineages = unique(n_lineages),
           .groups = "drop"
         ) |>
