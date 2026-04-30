@@ -75,19 +75,22 @@ fit_model <- function(data, tree, tree_id, chain) {
   )
   # run bayes traits in command line
   dir <- paste0(here::here(), "/bayestraits/")
-  system(
-    paste(
-      paste0(dir, "BayesTraitsV5"),
-      paste0(dir, tree_file),
-      paste0(dir, data_file),
-      paste0("< ", dir, commands_file)
+  invisible(
+    system(
+      paste(
+        paste0(dir, "BayesTraitsV3"),
+        paste0(dir, tree_file),
+        paste0(dir, data_file),
+        paste0("< ", dir, commands_file)
+      ),
+      intern = TRUE
     )
   )
   # read log file
   model_log <-
     read_tsv(
       file = paste0("bayestraits/", data_file, ".Log.txt"),
-      skip = 2 * length(internal_nodes) + 50,
+      skip = 2 * length(internal_nodes) + 46,
       show_col_types = FALSE
     ) |>
     # remove final empty column

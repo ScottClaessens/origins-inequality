@@ -101,6 +101,8 @@ list(
       )
     )
   ),
+  # run model comparison
+  tar_target(model_comparison, run_model_comparison(data, mcc_tree)),
   # produce report
   tar_quarto(report, "quarto/report.qmd", quiet = FALSE),
   # print session info
