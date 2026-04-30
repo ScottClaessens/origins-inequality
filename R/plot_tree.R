@@ -54,7 +54,8 @@ plot_tree <- function(data, tree, tree_id, fit) {
       layout = "circular",
       colour = "grey",
       linewidth = 0.15
-    ) %<+% dd +
+    ) |>
+    revts() %<+% dd +
     geom_nodepoint(
       mapping = aes(colour = prob_inequality),
       size = 0.05
@@ -64,6 +65,26 @@ plot_tree <- function(data, tree, tree_id, fit) {
       limits = c(0, 1),
       low = "grey95",
       high = "black"
+    ) +
+    # add timescale
+    deeptime::coord_geo_polar(
+      dat = tibble(
+        name = "Holocene",
+        max_age = 11.7,
+        min_age = 0,
+        color = "azure"
+      ),
+      color = "white"
+    ) +
+    scale_x_continuous(breaks = c(-50, -100, -150, -200)) +
+    theme(
+      deeptime.axis.line.r = element_blank(),
+      deeptime.axis.text.r = element_text(
+        size = 2,
+        vjust = -2,
+        hjust = -0.5
+      ),
+      deeptime.axis.ticks.length.r = unit(1, "points")
     )
   # add trait data
   out <-
@@ -115,7 +136,7 @@ plot_tree <- function(data, tree, tree_id, fit) {
       geom_cladelab(
         node = node,
         label = family,
-        offset = 15,
+        offset = 17,
         offset.text = 3,
         barsize = 0.2,
         fontsize = 2.5,
