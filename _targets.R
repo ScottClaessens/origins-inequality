@@ -5,8 +5,8 @@ library(tarchetypes)
 library(tidyverse)
 
 tar_option_set(
-  packages = c("ape", "deeptime", "ggtree", "patchwork",
-               "phangorn", "rstan", "tidyverse"),
+  packages = c("ape", "deeptime", "ggtree", "patchwork", "phangorn",
+               "phytools", "rstan", "tidyverse"),
   controller = crew_controller_local(workers = 8),
   deployment = "main"
 )
@@ -104,6 +104,8 @@ list(
   ),
   # run model comparison
   tar_target(model_comparison, run_model_comparison(data, mcc_tree)),
+  # simulate model comparison
+  tar_target(sim_model_comparison, simulate_model_comparison(data, mcc_tree)),
   # produce report
   tar_quarto(report, "quarto/report.qmd", quiet = FALSE),
   # print session info
