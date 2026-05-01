@@ -77,7 +77,7 @@ get_log_lik <- function(data, mcc_tree, fossilised = TRUE) {
           "Fossil",
           paste0("N", i),
           paste0("T", i),
-          "12"
+          "1"
         )
       # add to commands
       commands <- c(commands, tag_command, fossil_command)

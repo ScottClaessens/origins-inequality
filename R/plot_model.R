@@ -89,7 +89,7 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
           tibble(
             id = id,
             time = t,
-            means = NA,
+            maximums = NA,
             n_lineages = 0
           )
         )
@@ -98,14 +98,14 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
       # filter posterior samples to active lineages
       mat <- prob_matrix[, as.character(parent_node)[active], drop = FALSE]
 
-      # average across active lineages
-      means <- rowMeans(mat)
+      # get maximum probability of inequality across all active lineages
+      maximums <- apply(mat, 1, max)
 
       # return tibble
       tibble(
         id = id,
         time = t,
-        means = list(means),
+        maximums = list(maximums),
         n_lineages = n_lineages
       )
     })
@@ -120,16 +120,16 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
   # aggregate across trees
   out_summary <-
     out |>
-    unnest(means) |>
+    unnest(maximums) |>
     group_by(time) |>
     dplyr::summarise(
-      median  = median(means, na.rm = TRUE),
-      lower95 = quantile(means, 0.025, na.rm = TRUE),
-      upper95 = quantile(means, 0.975, na.rm = TRUE),
-      lower50 = quantile(means, 0.375, na.rm = TRUE),
-      upper50 = quantile(means, 0.625, na.rm = TRUE),
-      lower25 = quantile(means, 0.025, na.rm = TRUE),
-      upper25 = quantile(means, 0.975, na.rm = TRUE),
+      median  = median(maximums, na.rm = TRUE),
+      lower95 = quantile(maximums, 0.025, na.rm = TRUE),
+      upper95 = quantile(maximums, 0.975, na.rm = TRUE),
+      lower50 = quantile(maximums, 0.375, na.rm = TRUE),
+      upper50 = quantile(maximums, 0.625, na.rm = TRUE),
+      lower25 = quantile(maximums, 0.025, na.rm = TRUE),
+      upper25 = quantile(maximums, 0.975, na.rm = TRUE),
       .groups = "drop"
     )
 
@@ -176,7 +176,7 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
     ) +
     scale_x_continuous(name = "Time before present (thousands of years)") +
     scale_y_continuous(
-      name = "Probability of inequality",
+      name = "Maximum probability of inequality",
       limits = c(0, 1)
     ) +
     ggtitle(ifelse(!is.null(family), family, "Global")) +
