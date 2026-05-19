@@ -103,9 +103,16 @@ list(
     )
   ),
   # run model comparison
-  tar_target(model_comparison, run_model_comparison(data, mcc_tree)),
+  tar_target(log_lik_1, get_log_lik_fossilised(data, mcc_tree, "1")),
+  tar_target(log_lik_2, get_log_lik_fossilised(data, mcc_tree, "2")),
+  tar_target(log_lik_3, get_log_lik_fossilised(data, mcc_tree, "3")),
+  # summarise log bayes factors from model comparison
+  tar_target(
+    table_log_bfs,
+    get_table_log_bayes_factors(log_lik_1, log_lik_2, log_lik_3)
+  ),
   # simulate model comparison
-  tar_target(sim_model_comparison, simulate_model_comparison(data, mcc_tree)),
+  tar_target(sim, simulate_model_comparison(data, mcc_tree)),
   # produce report
   tar_quarto(report, "quarto/report.qmd", quiet = FALSE),
   # print session info
