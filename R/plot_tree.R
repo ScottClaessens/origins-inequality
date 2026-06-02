@@ -3,14 +3,16 @@
 #' @param data Tibble of D-PLACE data
 #' @param tree Tree object of class multiPhylo
 #' @param tree_id Indexes for trees
-#' @param fit Results of fitted model
+#' @param fit_asr Results of fitted ancestral state model
 #'
 #' @returns A ggplot object
 #'
-plot_tree <- function(data, tree, tree_id, fit) {
+plot_tree <- function(data, tree, tree_id, fit_asr) {
+
   # use first tree only
   id <- tree_id[1]
   tree <- tree[[id]]
+
   # wrangle data
   d <-
     data |>
@@ -21,9 +23,10 @@ plot_tree <- function(data, tree, tree_id, fit) {
     ) |>
     as.data.frame()
   rownames(d) <- data$xd_id
+
   # summarise ancestral states
   dd <-
-    fit |>
+    fit_asr |>
     filter(tree_id == id) |>
     # get probability of inequality at internal nodes
     dplyr::select(ends_with("P(3)") & !starts_with("Root")) |>
@@ -47,6 +50,7 @@ plot_tree <- function(data, tree, tree_id, fit) {
           ifelse(as.numeric(data$class_differentiation) %in% 3:5, 1, 0)
       )
     )
+
   # plot tree
   out <-
     ggtree(
@@ -86,6 +90,7 @@ plot_tree <- function(data, tree, tree_id, fit) {
       ),
       deeptime.axis.ticks.length.r = unit(1, "points")
     )
+
   # add trait data
   out <-
     gheatmap(
@@ -108,6 +113,7 @@ plot_tree <- function(data, tree, tree_id, fit) {
       palette = 7,
       na.value = "grey95"
     )
+
   # get taxa bookends for language families
   taxa_bookends <- list(
     "Atlantic-Congo"          = c("xd10",   "xd236"),
@@ -126,6 +132,7 @@ plot_tree <- function(data, tree, tree_id, fit) {
     "Salishan"                = c("xd1071", "xd1106"),
     "Eskimo-Aleut"            = c("xd1022", "xd1067")
   )
+
   # add clade labels for language families
   for (family in names(taxa_bookends)) {
     # node number for most recent common ancestor
@@ -148,6 +155,7 @@ plot_tree <- function(data, tree, tree_id, fit) {
         )
       )
   }
+
   # save
   ggsave(
     filename = "plots/tree.pdf",
@@ -155,8 +163,11 @@ plot_tree <- function(data, tree, tree_id, fit) {
     height = 10,
     width = 10
   )
+
   # cleanup
   rm(data, tree, tree_id, fit, id, d, dd, taxa_bookends, node)
+
   # return
   out
+
 }

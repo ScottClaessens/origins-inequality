@@ -176,15 +176,18 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
     ) +
     scale_x_continuous(name = "Time before present (thousands of years)") +
     scale_y_continuous(
-      name = "Maximum probability of inequality",
+      name = "Maximum probability of stratification",
       limits = c(0, 1)
     ) +
     ggtitle(ifelse(!is.null(family), family, "Global")) +
     theme_classic() +
     theme(plot.title = element_text(size = 9))
+
   # cleanup
   rm(data, fit, out, out_summary, results, tree, start_time, end_time,
      time_slice, times_seq, tree_id, family)
+
   # return
   p
+
 }

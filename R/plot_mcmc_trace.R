@@ -1,17 +1,17 @@
 #' Plot MCMC trace for rate parameters in BayesTraits model
 #'
 #' @param fit Tibble of posterior samples from the fitted model
-#' @param tree_id Index for tree to plot
+#' @param model Character of length 1. Which model was fitted. One of: "full",
+#'   "rectilinear", "unilinear", "relaxed_unilinear", "alternative", or
+#'   "alternative_reversible"
 #'
 #' @returns A ggplot object
 #'
-plot_mcmc_trace <- function(fit, tree_id) {
-  # get tree id
-  id <- tree_id
+plot_mcmc_trace <- function(fit, model = "full") {
+
   # plot trace
   out <-
     fit |>
-    filter(tree_id == id) |>
     dplyr::select(c(chain, Iteration, q12, q13, q21, q23, q31, q32)) |>
     pivot_longer(
       cols = !c(chain, Iteration),
@@ -30,7 +30,6 @@ plot_mcmc_trace <- function(fit, tree_id) {
       scales = "free_y"
     ) +
     labs(
-      title = paste0("Tree ID: ", id),
       x = "Iterations (in thousands)",
       y = NULL
     ) +
@@ -40,15 +39,19 @@ plot_mcmc_trace <- function(fit, tree_id) {
     ) +
     theme_classic() +
     theme(axis.text.x = element_text(size = 7))
+
   # save
   ggsave(
-    filename = "plots/traceplot.pdf",
+    filename = paste0("plots/traceplots/traceplot_", model, ".pdf"),
     plot = out,
     height = 4,
     width = 6
   )
+
   # cleanup
   rm(fit, tree_id, id)
+
   # return
   out
+
 }

@@ -14,7 +14,7 @@ the following R packages:
 ```r
 install.packages(
   c("ape", "crew", "ggtree", "patchwork", "phangorn", 
-    "rstan", "tarchetypes", "targets", "tidyverse")
+    "rstan", "tarchetypes", "targets", "tidyverse", "withr")
 )
 ```
 

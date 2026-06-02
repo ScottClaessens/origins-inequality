@@ -1,12 +1,19 @@
-#' Calculate diagnostics for the ancestral state reconstruction model
+#' Calculate diagnostics for the BayesTraits model
 #'
 #' @param fit Tibble of posterior samples from the fitted model
 #'
 #' @returns A tibble of model diagnostics
 #'
 calculate_model_diagnostics <- function(fit) {
+
+  # remove unnecessary columns
+  if ("log_lik" %in% colnames(fit)) {
+    fit <- dplyr::select(fit, -c(Iteration, model, `Tree No`, log_lik))
+  } else {
+    fit <- dplyr::select(fit, -c(Iteration, model, `Tree No`))
+  }
+
   fit |>
-    dplyr::select(-c(Iteration, `Tree No`)) |>
     # collect posterior samples
     group_by(tree_id, chain) |>
     summarise(across(everything(), list), .groups = "drop") |>
@@ -29,4 +36,5 @@ calculate_model_diagnostics <- function(fit) {
     ) |>
     ungroup() |>
     dplyr::select(!c(`1`, `2`, `3`, `4`, `post`))
+
 }

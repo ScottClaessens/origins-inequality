@@ -6,7 +6,7 @@ library(tidyverse)
 
 tar_option_set(
   packages = c("ape", "deeptime", "ggtree", "patchwork", "phangorn",
-               "phytools", "rstan", "tidyverse"),
+               "phytools", "rstan", "tidyverse", "withr"),
   controller = crew_controller_local(workers = 8),
   deployment = "main"
 )
@@ -14,6 +14,11 @@ tar_source()
 
 # pipeline
 list(
+
+  # ─────────────────────────────────────────
+  # Load D-PLACE data and phylogeny
+  # ─────────────────────────────────────────
+
   # get data urls
   tar_target(
     dplace_data_url,
@@ -39,12 +44,16 @@ list(
     ),
     format = "url"
   ),
-  # get data file paths
+
+  # get tree file path
   tar_target(tree_file, "data/tree/dplace.nxs", format = "file"),
+
   # load tree
   tar_target(tree, read.nexus(tree_file)),
+
   # compute maximum clade credibility tree
   tar_target(mcc_tree, phangorn::mcc(tree)),
+
   # load dplace data
   tar_target(
     data,
@@ -53,31 +62,83 @@ list(
       glottolog_languages_url, mcc_tree
     )
   ),
-  # get tree ids
-  tar_target(tree_id, sample(1:length(tree), size = 100, replace = FALSE)),
+
+  # ─────────────────────────────────────────
+  # Compare models of evolution
+  # ─────────────────────────────────────────
+
   # get independent mcmc chains
   tar_target(chain, 1:4),
+
+  # loop over models
+  tar_map(
+
+    values = tibble(
+      model = c(
+        "full", "rectilinear", "unilinear", "relaxed_unilinear",
+        "alternative", "alternative_reversible"
+      )
+    ),
+
+    # fit model
+    tar_target(
+      fit,
+      fit_model(data, tree, chain, model),
+      pattern = map(chain),
+      deployment = "worker",
+      storage = "worker",
+      retrieval = "worker"
+    ),
+
+    # get diagnostics
+    tar_target(diagnostics, calculate_model_diagnostics(fit)),
+
+    # plot MCMC trace
+    tar_target(plot_trace, plot_mcmc_trace(fit, model))
+
+  ),
+
+  # model comparison table
+  tar_target(
+    table_model_comparison,
+    get_table_model_comparison(
+      bind_rows(
+        fit_full, fit_rectilinear, fit_unilinear, fit_relaxed_unilinear,
+        fit_alternative, fit_alternative_reversible
+      )
+    )
+  ),
+
+  # ─────────────────────────────────────────
+  # Estimate ancestral states
+  # ─────────────────────────────────────────
+
+  # get tree ids
+  tar_target(tree_id, sample(1:length(tree), size = 100, replace = FALSE)),
+
   # fit ancestral state reconstruction model
   tar_target(
-    fit,
-    fit_model(data, tree, tree_id, chain),
-    pattern = cross(tree_id, chain),
+    fit_asr,
+    fit_model(data, tree, chain, model = "relaxed_unilinear",
+              stones = FALSE, asr = TRUE, tree_id = tree_id),
+    pattern = cross(chain, tree_id),
     # run in parallel
     deployment = "worker",
     storage = "worker",
     retrieval = "worker"
   ),
+
   # calculate model diagnostics
-  tar_target(model_diagnostics, calculate_model_diagnostics(fit)),
-  # get trace plot
-  tar_target(plot_trace, plot_mcmc_trace(fit, tree_id = tree_id[1])),
+  tar_target(diagnostics_asr, calculate_model_diagnostics(fit_asr)),
+
   # plot tree
   tar_target(
     plot_tree_states,
-    plot_tree(data, tree, tree_id, fit)
+    plot_tree(data, tree, tree_id, fit_asr)
   ),
+
   # plot results globally and by language family
-  tar_target(plot_Global, plot_model(data, fit, tree, tree_id,
+  tar_target(plot_Global, plot_model(data, fit_asr, tree, tree_id,
                                      end_time = -0.2, time_slice = 0.2)),
   tar_map(
     values = tibble(
@@ -86,9 +147,10 @@ list(
                  "Athabaskan-Eyak-Tlingit", "Sino-Tibetan", "Mande", "Salishan",
                  "Uralic", "Eskimo-Aleut", "Austroasiatic", "Dravidian")
     ),
-    tar_target(plot, plot_model(data, fit, tree, tree_id, family = family,
+    tar_target(plot, plot_model(data, fit_asr, tree, tree_id, family = family,
                                 end_time = -0.2, time_slice = 0.2))
   ),
+
   # combine plots
   tar_target(
     combined_plots,
@@ -102,22 +164,34 @@ list(
       )
     )
   ),
-  # run model comparison
+
+  # ─────────────────────────────────────────
+  # Fossilising nodes
+  # ─────────────────────────────────────────
+
+  # run comparison of different fossilisations
   tar_target(log_lik_1, get_log_lik_fossilised(data, mcc_tree, "1")),
   tar_target(log_lik_2, get_log_lik_fossilised(data, mcc_tree, "2")),
   tar_target(log_lik_3, get_log_lik_fossilised(data, mcc_tree, "3")),
-  # summarise log bayes factors from model comparison
+
+  # summarise log bayes factors
   tar_target(
-    table_log_bfs,
-    get_table_log_bayes_factors(log_lik_1, log_lik_2, log_lik_3)
+    table_fossilised_log_bfs,
+    get_table_fossilised(log_lik_1, log_lik_2, log_lik_3)
   ),
+
   # simulate model comparison
-  tar_target(sim, simulate_model_comparison(data, mcc_tree)),
-  # produce report
-  tar_quarto(report, "quarto/report.qmd", quiet = FALSE),
-  # print session info
+  tar_target(sim_1, simulate_model_comparison(data, mcc_tree, fossil = "1")),
+  tar_target(sim_2, simulate_model_comparison(data, mcc_tree, fossil = "2")),
+  tar_target(sim_3, simulate_model_comparison(data, mcc_tree, fossil = "3")),
+
+  # ─────────────────────────────────────────
+  # Print session info
+  # ─────────────────────────────────────────
+
   tar_target(
     sessionInfo,
     writeLines(capture.output(sessionInfo()), "sessionInfo.txt")
   )
+
 )

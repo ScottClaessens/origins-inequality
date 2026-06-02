@@ -1,4 +1,4 @@
-#' Produce table of log Bayes Factors for model comparison
+#' Produce table of Bayes Factors from fossilised models
 #'
 #' @param log_lik_1 Log marginal likelihood for model with internal nodes prior
 #'   to 11.7 kya fossilised to "1"
@@ -9,11 +9,11 @@
 #'
 #' @returns Tibble
 #'
-get_table_log_bayes_factors <- function(log_lik_1, log_lik_2, log_lik_3) {
+get_table_fossilised <- function(log_lik_1, log_lik_2, log_lik_3) {
 
   tibble(
     Model = as.character(1:3),
-    `Fossilised state` = c("Egalitarian", "Wealth distinctions",
+    `Fossilised state` = c("Absence of distinctions", "Wealth distinctions",
                            "Stratification"),
     `Log likelihood` = c(log_lik_1, log_lik_2, log_lik_3),
     `Log BF vs. Model 1` = c(
@@ -41,6 +41,8 @@ get_table_log_bayes_factors <- function(log_lik_1, log_lik_2, log_lik_3) {
     )
   ) |>
   # replace zeros with dashes
-  mutate(across(everything(), function(x) ifelse(str_ends(x, "0.00"), "-", x)))
+  mutate(
+    across(everything(), function(x) ifelse(str_ends(x, "0.00"), " ", x))
+  )
 
 }
