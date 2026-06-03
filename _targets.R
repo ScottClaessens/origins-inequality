@@ -6,7 +6,8 @@ library(tidyverse)
 
 tar_option_set(
   packages = c("ape", "deeptime", "ggtree", "patchwork", "phangorn",
-               "phytools", "rstan", "tidyverse", "withr"),
+               "phytools", "rstan", "rworldmap", "rworldxtra", "sp",
+               "tidyverse", "withr"),
   controller = crew_controller_local(workers = 8),
   deployment = "main"
 )
@@ -137,17 +138,17 @@ list(
     plot_tree(data, tree, tree_id, fit_asr)
   ),
 
-  # plot results globally and by language family
+  # plot results globally and by continent
   tar_target(plot_Global, plot_model(data, fit_asr, tree, tree_id,
                                      end_time = -0.2, time_slice = 0.2)),
   tar_map(
     values = tibble(
-      family = c("Atlantic-Congo", "Austronesian", "Afro-Asiatic",
-                 "Uto-Aztecan", "Indo-European", "Nilotic", "Algic",
-                 "Athabaskan-Eyak-Tlingit", "Sino-Tibetan", "Mande", "Salishan",
-                 "Uralic", "Eskimo-Aleut", "Austroasiatic", "Dravidian")
+      continent = c(
+        "Africa", "Eurasia", "North America", "Oceania", "South America"
+      )
     ),
-    tar_target(plot, plot_model(data, fit_asr, tree, tree_id, family = family,
+    tar_target(plot, plot_model(data, fit_asr, tree, tree_id,
+                                continent = continent,
                                 end_time = -0.2, time_slice = 0.2))
   ),
 
@@ -156,11 +157,8 @@ list(
     combined_plots,
     combine_plots(
       list(
-        plot_Global, plot_Atlantic.Congo, plot_Austronesian, plot_Afro.Asiatic,
-        plot_Uto.Aztecan, plot_Indo.European, plot_Nilotic, plot_Algic,
-        plot_Athabaskan.Eyak.Tlingit, plot_Sino.Tibetan, plot_Mande,
-        plot_Salishan, plot_Uralic, plot_Eskimo.Aleut, plot_Austroasiatic,
-        plot_Dravidian
+        plot_Global, plot_Africa, plot_Eurasia, plot_North.America,
+        plot_Oceania, plot_South.America
       )
     )
   ),

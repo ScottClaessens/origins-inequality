@@ -4,8 +4,8 @@
 #' @param fit Results of fitted model
 #' @param tree Tree object of class multiPhylo
 #' @param tree_id Indexes for trees
-#' @param family (optional) Character. Resulting plot will summarise
-#'   only ancestral nodes for taxa in a particular language family.
+#' @param continent (optional) Character. Resulting plot will summarise
+#'   only ancestral nodes for taxa on a particular continent.
 #' @param start_time Start of the time window (thousands of years before
 #'   present). Defaults to -20.
 #' @param end_time End of the time window (thousands of years before
@@ -15,8 +15,21 @@
 #'
 #' @returns A ggplot object
 #'
-plot_model <- function(data, fit, tree, tree_id, family = NULL,
+plot_model <- function(data, fit, tree, tree_id, continent = NULL,
                        start_time = -20, end_time = -0.25, time_slice = 0.25) {
+
+  # get continents from lon/lat coordinates
+  countries <- rworldmap::getMap(resolution = "low")
+  points <-
+    sp::SpatialPoints(
+      data[, c("longitude", "latitude")],
+      sp::CRS(sp::proj4string(countries))
+    )
+  data$big_region <- as.character(sp::over(points, countries)$continent)
+
+  # use oceania instead of australia
+  data$big_region <-
+    ifelse(data$big_region == "Australia", "Oceania", data$big_region)
 
   # get sequence of time slices
   times_seq <- seq(start_time, end_time, by = time_slice)
@@ -46,13 +59,13 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
     colnames(prob_matrix) <-
       parse_number(str_sub(colnames(prob_matrix), 2, 5))
 
-    # family filtering (once per tree)
-    if (!is.null(family)) {
+    # continent filtering (once per tree)
+    if (!is.null(continent)) {
 
-      # get taxa in language family
+      # get taxa on continent
       taxa <-
         data |>
-        filter(!is.na(language_family) & language_family == family) |>
+        filter(!is.na(big_region) & big_region == continent) |>
         pull(xd_id)
 
       # get most recent common ancestor
@@ -66,7 +79,7 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
       # retain ancestors younger than mrca
       ancestors <- ancestors[ancestors >= mrca]
 
-      # filter to family
+      # filter to continent
       keep <- parent_node %in% ancestors
       parent_node <- parent_node[keep]
       child_node <- child_node[keep]
@@ -179,13 +192,13 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
       name = "Maximum probability of stratification",
       limits = c(0, 1)
     ) +
-    ggtitle(ifelse(!is.null(family), family, "Global")) +
+    ggtitle(ifelse(!is.null(continent), continent, "Global")) +
     theme_classic() +
     theme(plot.title = element_text(size = 9))
 
   # cleanup
   rm(data, fit, out, out_summary, results, tree, start_time, end_time,
-     time_slice, times_seq, tree_id, family)
+     time_slice, times_seq, tree_id, continent)
 
   # return
   p

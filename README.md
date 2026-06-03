@@ -13,14 +13,16 @@ the following R packages:
 
 ```r
 install.packages(
-  c("ape", "crew", "ggtree", "patchwork", "phangorn", 
-    "rstan", "tarchetypes", "targets", "tidyverse", "withr")
+  c("ape", "BiocManager", "crew", "deeptime", "patchwork", "phangorn",
+    "phytools", "rstan", "rworldmap", "rworldxtra", "sp", "tarchetypes",
+    "targets", "tidyverse", "withr")
 )
+BiocManager::install("ggtree")
 ```
 
-You will also need to download the software BayesTraits V5.0.3 from 
-[here](https://www.evolution.reading.ac.uk/BayesTraitsV5.0.3/BayesTraitsV5.0.3.html)
-and copy the executable file `BayesTraitsV5` into the `/bayestraits` folder
+You will also need to download the software BayesTraits V3.0.5 from 
+[here](https://www.evolution.reading.ac.uk/BayesTraitsV3.0.5/BayesTraitsV3.0.5.html)
+and copy the executable file `BayesTraitsV3` into the `/bayestraits` folder
 of this repository.
 
 ### Execute code
