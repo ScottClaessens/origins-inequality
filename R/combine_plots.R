@@ -10,8 +10,8 @@ combine_plots <- function(plot_list) {
   out <-
     wrap_plots(plot_list) +
     plot_layout(
-      nrow = 2,
-      ncol = 3,
+      nrow = 5,
+      ncol = 5,
       axes = "collect_y",
       axis_titles = "collect"
     )
@@ -20,8 +20,8 @@ combine_plots <- function(plot_list) {
   ggsave(
     filename = "plots/time_slices.pdf",
     plot = out,
-    width = 6,
-    height = 4
+    width = 7.5,
+    height = 7.5
   )
 
   # return

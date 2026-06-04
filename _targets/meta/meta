@@ -3,7 +3,6 @@ tree_file|stem|097e0a16f1431efe|1de9ec4cb0b83efe|2c530c1562a7fbd1|-419834672|dat
 dplace_societies_url|stem|c3caf7f2ccd75161|aee14d29acec2be0|2c530c1562a7fbd1|17396771|https://raw.githubusercontent.com/D-PLACE/dplace-cldf/6c2008c187a297d1955b41d8ae80d8e31d404f6c/cldf/societies.csv|t20566.791498015s||0|url|local|vector|||0||
 chain|stem|719f05d8a8239840|da2c7f5a1841a216|2c530c1562a7fbd1|2033063214||t20566.7914990691s|s99b|99|rds|local|vector||chain_6e95f3b2b5476d92*chain_b3a2147ad240fae3*chain_f5968f8186dadba0*chain_50003b5d5254d75e|0||
 dplace_data_url|stem|e0e023be3db9dfae|14e703ec1d8b5d26|2c530c1562a7fbd1|545186855|https://raw.githubusercontent.com/D-PLACE/dplace-cldf/6c2008c187a297d1955b41d8ae80d8e31d404f6c/cldf/data.csv|t20566.7915006051s||0|url|local|vector|||0.001||
-glottolog_languages_url|stem|f18a0e38130eafea|bbd54384d0ebe985|2c530c1562a7fbd1|1513706872|https://raw.githubusercontent.com/glottolog/glottolog-cldf/072ca0d0410039fb8b779be8fc165bac575d2cda/cldf/languages.csv|t20566.7915023784s||0|url|local|vector|||0||
 tree|stem|d3fef94fb1a65efb|7b4ee45d0a45de90|ebd48cae5adb8908|437279712||t20566.7915655876s|s27129434b|27129434|rds|local|vector|||3.628||
 mcc_tree|stem|fdacd01fa545910e|c47da3594f89d0e8|977498bc9f11c640|-2069454262||t20566.7916765928s|s33711b|33711|rds|local|vector|||9.487||
 data|stem|737c2c3b7746614a|b9cd236e90084022|159c4ef7574c4be0|33550471||t20566.7919105318s|s31019b|31019|rds|local|vector|||20.097||
@@ -452,7 +451,6 @@ diagnostics_unilinear|stem|584658e660f968a8|d94b9c2b6bf43ad9|eebbb82ded5bfbed|19
 diagnostics_rectilinear|stem|80114800c37c0645|ba4b81d4c44dba67|ae0f767ac14666ce|258249229||t20606.5240433778s|s490b|490|rds|local|vector|||0.023||
 diagnostics_alternative|stem|edf17be7c7d73e5e|8253e37d4529f40e|c17f87d26a211487|1983963952||t20606.5240441114s|s518b|518|rds|local|vector|||0.036||
 diagnostics_full|stem|38eed4cf8be4e9d8|f67821d17513c475|33bd14b3cfb6a262|1911338453||t20606.5240447597s|s591b|591|rds|local|vector|||0.025||
-plot_tree_states|stem|d196da209dcf162e|a7ed96d3582bb893|243b8e64e5eb7569|-946372951||t20606.5334547204s|s2852106969b|2852106969|rds|local|vector|||2.213|`coord_geo_polar()` was deprecated in deeptime 1.1.0. ℹ Please use `coord_geo_radial()` instead.. Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0. ℹ Please use `linewidth` instead. ℹ The deprecated feature was likely used in the ggtree package.   Please report the issue at <https://github.com/YuLab-SMU/ggtree/issues>.. object 'fit' not found|
 log_lik_1|stem|a8a823c79505134b|ce4f97488aaebc2c|f324bcfe2a56ee18|-989141741||t20606.5775016441s|s54b|54|rds|local|vector|||196.348||
 log_lik_2|stem|a548234151b58f2f|a53d5f9d2f7b060a|f324bcfe2a56ee18|-346051168||t20606.5797416735s|s54b|54|rds|local|vector|||193.514||
 log_lik_3|stem|ee306e3d5fe833dc|d53a855a47b24f63|f324bcfe2a56ee18|445915265||t20606.5819664106s|s54b|54|rds|local|vector|||192.193||
@@ -462,22 +460,43 @@ sim_2|stem|c3cc5a626df75906|56cbd54b45196963|1f67c86dc47c6d70|1869798857||t20606
 sim_3|stem|b37cc9142df6439c|fd8f648b86bd9838|1f67c86dc47c6d70|2018103881||t20606.7006801099s|s296b|296|rds|local|vector|||570.127||
 sessionInfo|stem|ea95d97d277d3ba7|6f338939dd102f8f|2c530c1562a7fbd1|1164010252||t20606.7169792062s|s43b|43|rds|local|vector|||3.507||
 table_model_comparison|stem|556d10afc3697a81|d5772e1692cb2e65|92bab33224d00f6c|1513349936||t20607.6529366214s|s366b|366|rds|local|vector|||0.031||
+plot_tree_states|stem|1d9c98e23a3dd988|a7ed96d3582bb893|dd16185fa051ebcc|-946372951||t20608.373570601s|s22503352b|22503352|rds|local|vector|||2.103|`coord_geo_polar()` was deprecated in deeptime 1.1.0. ℹ Please use `coord_geo_radial()` instead.. Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0. ℹ Please use `linewidth` instead. ℹ The deprecated feature was likely used in the ggtree package.   Please report the issue at <https://github.com/YuLab-SMU/ggtree/issues>.|
+manuscript|stem|38398e2ecad2a9b4|8b765ee58e7e7a46|f4cce917b9525663|-1793997187|quarto/manuscript.docx*quarto/manuscript.pdf*quarto/manuscript.qmd*quarto/supplement.qmd|t20608.3761723089s|s549688b|549688|file|local|vector|||17.437||
+plot_Nilotic|stem|9e62494dda603f29|28a21384142b88d0|ccf9374ec7113ac5|-1377115540||t20608.3787797552s|s454481b|454481|rds|local|vector|||8.237||
+plot_Cariban|stem|6d281da4a9bdc3ec|5371589731a363e7|ccf9374ec7113ac5|-1302814704||t20608.3790109158s|s451546b|451546|rds|local|vector|||6.812||
+plot_Turkic|stem|d2571aff34575ad8|0ecbb285e7b27883|ccf9374ec7113ac5|618620950||t20608.3792281811s|s450967b|450967|rds|local|vector|||6.455||
+plot_Central.Sudanic|stem|16538d20a83602d6|50ef312605bf6218|ccf9374ec7113ac5|2057618516||t20608.3795004065s|s454605b|454605|rds|local|vector|||8.642||
+plot_Athabaskan.Eyak.Tlingit|stem|e69229c362aea937|b74f32c2a86dca37|ccf9374ec7113ac5|685760554||t20608.3797573555s|s454514b|454514|rds|local|vector|||8.623||
+plot_Arawakan|stem|561c69a563343cd6|e485fff5906bd6de|ccf9374ec7113ac5|-1426643989||t20608.3799943444s|s452903b|452903|rds|local|vector|||7.991||
+plot_Sino.Tibetan|stem|c563473d5211fc26|b110905b9b64adce|ccf9374ec7113ac5|-699653363||t20608.3802768998s|s455121b|455121|rds|local|vector|||10.163||
+plot_Salishan|stem|2c762801db5d8f01|bfa1b19400c37cfa|ccf9374ec7113ac5|-543999349||t20608.3805615164s|s454985b|454985|rds|local|vector|||8.651||
+plot_Mayan|stem|ca38e1739e7fb069|356abc7c82716802|ccf9374ec7113ac5|-26033229||t20608.3808367362s|s455361b|455361|rds|local|vector|||8.785||
+plot_Austronesian|stem|e4d88f23d94413b8|14691d203432c085|ccf9374ec7113ac5|1936260641||t20608.3812645416s|s456820b|456820|rds|local|vector|||20.329||
+plot_Dravidian|stem|a6a9a781f0038777|9321a7089f061ab5|ccf9374ec7113ac5|1285821890||t20608.3815340466s|s453751b|453751|rds|local|vector|||8.215||
+plot_Algic|stem|9e7fd9376d8e5d35|0ba0c57ad1f4544d|ccf9374ec7113ac5|649301859||t20608.3817912816s|s457172b|457172|rds|local|vector|||9.065||
+plot_Uto.Aztecan|stem|01fce390ab59a960|0d9b093626d4c3d4|ccf9374ec7113ac5|-555978676||t20608.3820992744s|s458189b|458189|rds|local|vector|||11.795||
+plot_Austroasiatic|stem|62f3b33b8aa40a5e|0d15916b3700a96c|ccf9374ec7113ac5|323504932||t20608.38238081s|s454783b|454783|rds|local|vector|||9.602||
 fit_model|function|93bdcf3d8bff70af
-plot_tree|function|a98454f17fc4eb8c
+plot_tree|function|f87a08cdc0363803
 get_table_model_comparison|function|89f6d8a3d44e0154
 load_dplace_data|function|39e3a15ed321b6e2
 get_log_lik_fossilised|function|94488e4a536818fa
 get_table_fossilised|function|1246ffaf1035bd64
 calculate_model_diagnostics|function|1ae842fe1691394b
-plot_model|function|281fb2ac3f7e1d23
+plot_model|function|8c34220034837522
 plot_mcmc_trace|function|6177c9f62a96c098
-combine_plots|function|b5f07e8a52c8e909
+combine_plots|function|d67ae8e1afeb661f
 simulate_model_comparison|function|d7d5a5fbf21c2fa3
-plot_South.America|stem|244881af388d5f3f|c3a085ebf7a971d6|1495e4ed114e768e|77122775||t20607.7370404753s|s1956192b|1956192|rds|local|vector|||57.9||
-plot_Eurasia|stem|0755ce9025e293af|3d34f8400449bdb9|1495e4ed114e768e|-219873948||t20607.7379599635s|s1956639b|1956639|rds|local|vector|||64.305||
-plot_Global|stem|69647ef86b12999d|7a38c83561d5e0a4|1495e4ed114e768e|1369334778||t20607.738695161s|s1959262b|1959262|rds|local|vector|||45.512||
-plot_Africa|stem|ec4f9d073c70fce7|af5e9acb93de8854|1495e4ed114e768e|1886352024||t20607.7397316026s|s1957175b|1957175|rds|local|vector|||71.459||
-plot_North.America|stem|4d38d00360fadeb1|b0be03164e2e5751|1495e4ed114e768e|-132805188||t20607.7406166912s|s1955807b|1955807|rds|local|vector|||58.048||
-plot_Oceania|stem|90f97440a4b92f5c|d9603ac23ca7059e|1495e4ed114e768e|-2065759321||t20607.7414932784s|s1955741b|1955741|rds|local|vector|||60.14||
-combined_plots|stem|30e707dfbf53da18|bbbc38ee74ce24a8|da69d0b49f6716f9|1038530895||t20607.7415278113s|s11767049b|11767049|rds|local|vector|||1.598|Removed 21 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 21 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 21 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 21 rows containing missing values or values outside the scale range (`geom_line()`).. Removed 23 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 23 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 23 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 23 rows containing missing values or values outside the scale range (`geom_line()`).|
-manuscript|stem|c1c005571434bf41|8b765ee58e7e7a46|a43461778ba04991|-1793997187|quarto/manuscript.docx*quarto/manuscript.pdf*quarto/manuscript.qmd*quarto/supplement.qmd|t20607.7421750923s|s540809b|540809|file|local|vector|||45.326||
+glottolog_languages_url|stem|f18a0e38130eafea|bbd54384d0ebe985|2c530c1562a7fbd1|1513706872|https://raw.githubusercontent.com/glottolog/glottolog-cldf/072ca0d0410039fb8b779be8fc165bac575d2cda/cldf/languages.csv|t20608.4722095073s||0|url|local|vector|||0.885||
+plot_Afro.Asiatic|stem|baa83ede72ad60b2|bcf4fbe2e2590beb|ccf9374ec7113ac5|710729011||t20608.4725932026s|s462398b|462398|rds|local|vector|||15.337||
+plot_Eskimo.Aleut|stem|74a095cde6be00da|ae0a5f134b4d99fa|ccf9374ec7113ac5|740457859||t20608.4728617974s|s453408b|453408|rds|local|vector|||7.499||
+plot_Mande|stem|c650761e1067a9ec|d06cc619ca9fb075|ccf9374ec7113ac5|-1768471736||t20608.4731640581s|s455067b|455067|rds|local|vector|||10.121||
+plot_Global|stem|f865ace0237c3266|7a38c83561d5e0a4|ccf9374ec7113ac5|1369334778||t20608.4738381771s|s463100b|463100|rds|local|vector|||44.43||
+plot_Cochimi.Yuman|stem|161ce63e781dd138|478831c1faa635a5|ccf9374ec7113ac5|-1534696503||t20608.4741057818s|s454560b|454560|rds|local|vector|||7.401||
+plot_Siouan|stem|3e046528159464df|fe292fc8f7d07f14|ccf9374ec7113ac5|-1979528433||t20608.4743371122s|s453887b|453887|rds|local|vector|||7.281||
+plot_Nuclear.Trans.New.Guinea|stem|386456285f3db155|7a2c7d972245d729|ccf9374ec7113ac5|2089062973||t20608.4746007864s|s456315b|456315|rds|local|vector|||9.904||
+plot_Uralic|stem|81a7ece46a8aa382|b2ce41751494009a|ccf9374ec7113ac5|1321132887||t20608.4748508028s|s453627b|453627|rds|local|vector|||8.077||
+plot_Indo.European|stem|6dfa34ff4383d336|0528ad6321adee0b|ccf9374ec7113ac5|379691199||t20608.4751168751s|s454666b|454666|rds|local|vector|||9.984||
+plot_Tupian|stem|1e4b7e0a58c24b5c|ba392b3db39fbca7|ccf9374ec7113ac5|-329983068||t20608.4753860961s|s453619b|453619|rds|local|vector|||8.652||
+plot_Atlantic.Congo|stem|d73c88639afb5d6c|b83b059797bc336d|ccf9374ec7113ac5|-1218370379||t20608.475737086s|s456509b|456509|rds|local|vector|||15.143||
+combined_plots|stem|22957767125abb31|141806dbc08e1983|8c6965d0db9638df|1038530895||t20608.4758196855s|s11447858b|11447858|rds|local|vector|||2.169|Removed 51 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 51 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 51 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 51 rows containing missing values or values outside the scale range (`geom_line()`).. Removed 28 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 28 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 28 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 28 rows containing missing values or values outside the scale range (`geom_line()`).. Removed 63 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 63 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 63 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 63 rows containing missing values or values outside the scale range (`geom_line()`).. Removed 65 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 65 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 65 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 65 rows containing missing values or values outside the scale range (`geom_line()`).. Removed 21 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 21 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 21 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 21 rows containing missing values or values|

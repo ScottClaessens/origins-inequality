@@ -6,8 +6,7 @@ library(tidyverse)
 
 tar_option_set(
   packages = c("ape", "deeptime", "ggtree", "patchwork", "phangorn",
-               "phytools", "rstan", "rworldmap", "rworldxtra", "sp",
-               "tidyverse", "withr"),
+               "phytools", "rstan", "tidyverse", "withr"),
   controller = crew_controller_local(workers = 8),
   deployment = "main"
 )
@@ -138,17 +137,22 @@ list(
     plot_tree(data, tree, tree_id, fit_asr)
   ),
 
-  # plot results globally and by continent
+  # plot results globally and by language family
   tar_target(plot_Global, plot_model(data, fit_asr, tree, tree_id,
                                      end_time = -0.2, time_slice = 0.2)),
   tar_map(
     values = tibble(
-      continent = c(
-        "Africa", "Eurasia", "North America", "Oceania", "South America"
+      family = c(
+        "Atlantic-Congo", "Austronesian", "Afro-Asiatic", "Uto-Aztecan",
+        "Indo-European", "Nilotic", "Algic", "Athabaskan-Eyak-Tlingit",
+        "Sino-Tibetan", "Mande", "Salishan", "Uralic", "Eskimo-Aleut",
+        "Austroasiatic", "Arawakan", "Cariban", "Central Sudanic", "Turkic",
+        "Cochimi-Yuman", "Dravidian", "Nuclear Trans New Guinea", "Siouan",
+        "Tupian", "Mayan"
       )
     ),
     tar_target(plot, plot_model(data, fit_asr, tree, tree_id,
-                                continent = continent,
+                                family = family,
                                 end_time = -0.2, time_slice = 0.2))
   ),
 
@@ -157,8 +161,13 @@ list(
     combined_plots,
     combine_plots(
       list(
-        plot_Global, plot_Africa, plot_Eurasia, plot_North.America,
-        plot_Oceania, plot_South.America
+        plot_Global, plot_Atlantic.Congo, plot_Austronesian, plot_Afro.Asiatic,
+        plot_Uto.Aztecan, plot_Indo.European, plot_Nilotic, plot_Algic,
+        plot_Athabaskan.Eyak.Tlingit, plot_Sino.Tibetan, plot_Mande,
+        plot_Salishan, plot_Uralic, plot_Eskimo.Aleut, plot_Austroasiatic,
+        plot_Arawakan, plot_Cariban, plot_Central.Sudanic, plot_Turkic,
+        plot_Cochimi.Yuman, plot_Dravidian, plot_Nuclear.Trans.New.Guinea,
+        plot_Siouan, plot_Tupian, plot_Mayan
       )
     )
   ),

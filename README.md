@@ -14,8 +14,7 @@ the following R packages:
 ```r
 install.packages(
   c("ape", "BiocManager", "crew", "deeptime", "patchwork", "phangorn",
-    "phytools", "rstan", "rworldmap", "rworldxtra", "sp", "tarchetypes",
-    "targets", "tidyverse", "withr")
+    "phytools", "rstan", "tarchetypes", "targets", "tidyverse", "withr")
 )
 BiocManager::install("ggtree")
 ```

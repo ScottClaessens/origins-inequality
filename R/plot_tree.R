@@ -116,21 +116,30 @@ plot_tree <- function(data, tree, tree_id, fit_asr) {
 
   # get taxa bookends for language families
   taxa_bookends <- list(
-    "Atlantic-Congo"          = c("xd10",   "xd236"),
-    "Mande"                   = c("xd188",  "xd292"),
-    #"Athabaskan-Eyak-Tlingit" = c("xd1026", "xd1082"),
-    "Algic"                   = c("xd1047", "xd1097"),
-    "Uto-Aztecan"             = c("xd1118", "xd1292"),
-    "Afro-Asiatic"            = c("xd305",  "xd590"),
-    "Indo-European"           = c("xd528",  "xd604"),
-    "Dravidian"               = c("xd668",  "xd680"),
-    "Uralic"                  = c("xd544",  "xd632"),
-    "Nilotic"                 = c("xd2",    "xd391"),
-    "Austronesian"            = c("xd687",  "xd732"),
-    "Sino-Tibetan"            = c("xd639",  "xd658"),
-    "Austroasiatic"           = c("xd661",  "xd724"),
-    "Salishan"                = c("xd1071", "xd1106"),
-    "Eskimo-Aleut"            = c("xd1022", "xd1067")
+    "Atlantic-Congo"           = c("xd10",   "xd236" ),
+    "Austronesian"             = c("xd687",  "xd732" ),
+    "Afro-Asiatic"             = c("xd305",  "xd590" ),
+    "Uto-Aztecan"              = c("xd1118", "xd1292"),
+    "Indo-European"            = c("xd528",  "xd604" ),
+    "Nilotic"                  = c("xd2",    "xd391" ),
+    "Algic"                    = c("xd1047", "xd1097"),
+    "Athabaskan-Eyak-Tlingit"  = c("xd1026", "xd1082"),
+    "Sino-Tibetan"             = c("xd639",  "xd658" ),
+    "Mande"                    = c("xd188",  "xd292" ),
+    "Salishan"                 = c("xd1071", "xd1106"),
+    "Uralic"                   = c("xd544",  "xd632" ),
+    "Eskimo-Aleut"             = c("xd1022", "xd1067"),
+    "Austroasiatic"            = c("xd661",  "xd724" ),
+    "Arawakan"                 = c("xd1323", "xd1389"),
+    "Cariban"                  = c("xd1328", "xd1400"),
+    "Central Sudanic"          = c("xd155",  "xd364" ),
+    "Turkic"                   = c("xd549",  "xd551" ),
+    "Cochimi-Yuman"            = c("xd1134", "xd1281"),
+    "Dravidian"                = c("xd668",  "xd680" ),
+    "Nuclear Trans New Guinea" = c("xd785",  "xd808" ),
+    "Siouan"                   = c("xd1210", "xd1225"),
+    "Tupian"                   = c("xd1353", "xd1357"),
+    "Mayan"                    = c("xd1297", "xd1319")
   )
 
   # add clade labels for language families
@@ -150,7 +159,9 @@ plot_tree <- function(data, tree, tree_id, fit_asr) {
         hjust = ifelse(
           family %in% c("Afro-Asiatic", "Indo-European", "Uralic",
                         "Dravidian", "Austronesian", "Austroasiatic",
-                        "Sino-Tibetan", "Nilotic"),
+                        "Sino-Tibetan", "Nilotic", "Central Sudanic",
+                        "Nuclear Trans New Guinea", "Turkic", "Tupian",
+                        "Arawakan"),
           1, 0
         )
       )
@@ -165,7 +176,7 @@ plot_tree <- function(data, tree, tree_id, fit_asr) {
   )
 
   # cleanup
-  rm(data, tree, tree_id, fit, id, d, dd, taxa_bookends, node)
+  rm(data, tree, tree_id, fit_asr, id, d, dd, taxa_bookends, node)
 
   # return
   out
