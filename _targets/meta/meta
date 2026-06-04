@@ -453,7 +453,6 @@ diagnostics_rectilinear|stem|80114800c37c0645|ba4b81d4c44dba67|ae0f767ac14666ce|
 diagnostics_alternative|stem|edf17be7c7d73e5e|8253e37d4529f40e|c17f87d26a211487|1983963952||t20606.5240441114s|s518b|518|rds|local|vector|||0.036||
 diagnostics_full|stem|38eed4cf8be4e9d8|f67821d17513c475|33bd14b3cfb6a262|1911338453||t20606.5240447597s|s591b|591|rds|local|vector|||0.025||
 plot_tree_states|stem|d196da209dcf162e|a7ed96d3582bb893|243b8e64e5eb7569|-946372951||t20606.5334547204s|s2852106969b|2852106969|rds|local|vector|||2.213|`coord_geo_polar()` was deprecated in deeptime 1.1.0. ℹ Please use `coord_geo_radial()` instead.. Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0. ℹ Please use `linewidth` instead. ℹ The deprecated feature was likely used in the ggtree package.   Please report the issue at <https://github.com/YuLab-SMU/ggtree/issues>.. object 'fit' not found|
-table_model_comparison|stem|cadd4d8a10eadaeb|d5772e1692cb2e65|dd28e271e3efd0db|1513349936||t20606.5657772085s|s366b|366|rds|local|vector|||0.01||
 log_lik_1|stem|a8a823c79505134b|ce4f97488aaebc2c|f324bcfe2a56ee18|-989141741||t20606.5775016441s|s54b|54|rds|local|vector|||196.348||
 log_lik_2|stem|a548234151b58f2f|a53d5f9d2f7b060a|f324bcfe2a56ee18|-346051168||t20606.5797416735s|s54b|54|rds|local|vector|||193.514||
 log_lik_3|stem|ee306e3d5fe833dc|d53a855a47b24f63|f324bcfe2a56ee18|445915265||t20606.5819664106s|s54b|54|rds|local|vector|||192.193||
@@ -462,21 +461,23 @@ sim_1|stem|0b915d45e2e0ede4|541a67396669198a|1f67c86dc47c6d70|1645101238||t20606
 sim_2|stem|c3cc5a626df75906|56cbd54b45196963|1f67c86dc47c6d70|1869798857||t20606.6940810461s|s295b|295|rds|local|vector|||572.526||
 sim_3|stem|b37cc9142df6439c|fd8f648b86bd9838|1f67c86dc47c6d70|2018103881||t20606.7006801099s|s296b|296|rds|local|vector|||570.127||
 sessionInfo|stem|ea95d97d277d3ba7|6f338939dd102f8f|2c530c1562a7fbd1|1164010252||t20606.7169792062s|s43b|43|rds|local|vector|||3.507||
-plot_Oceania|stem|2f0bdb959f9d7f68|d9603ac23ca7059e|a0bad73af8d72083|-2065759321||t20607.5646102735s|s1954132b|1954132|rds|local|vector|||22.155||
-plot_Eurasia|stem|32f92dd244e5fbf4|3d34f8400449bdb9|a0bad73af8d72083|-219873948||t20607.5650789961s|s1958242b|1958242|rds|local|vector|||25.786||
-plot_South.America|stem|a3ad44644d4f6f03|c3a085ebf7a971d6|a0bad73af8d72083|77122775||t20607.5655724026s|s1957175b|1957175|rds|local|vector|||24.857||
-plot_Global|stem|25e93f7bfa8cb246|7a38c83561d5e0a4|a0bad73af8d72083|1369334778||t20607.5663252245s|s1958497b|1958497|rds|local|vector|||47.734||
-plot_North.America|stem|b395a74aa855cdcd|b0be03164e2e5751|a0bad73af8d72083|-132805188||t20607.5667953736s|s1957338b|1957338|rds|local|vector|||23.479||
-plot_Africa|stem|015c80a7feb51fe1|af5e9acb93de8854|a0bad73af8d72083|1886352024||t20607.5673294494s|s1958531b|1958531|rds|local|vector|||30.125||
-combined_plots|stem|a38c72de015ed28a|bbbc38ee74ce24a8|e0036e555f1ed79a|1038530895||t20607.5673652226s|s11770821b|11770821|rds|local|vector|||1.533||
+table_model_comparison|stem|556d10afc3697a81|d5772e1692cb2e65|92bab33224d00f6c|1513349936||t20607.6529366214s|s366b|366|rds|local|vector|||0.031||
 fit_model|function|93bdcf3d8bff70af
 plot_tree|function|a98454f17fc4eb8c
-get_table_model_comparison|function|13be86ac68a77190
+get_table_model_comparison|function|89f6d8a3d44e0154
 load_dplace_data|function|39e3a15ed321b6e2
 get_log_lik_fossilised|function|94488e4a536818fa
 get_table_fossilised|function|1246ffaf1035bd64
 calculate_model_diagnostics|function|1ae842fe1691394b
-plot_model|function|c48a248e324a6c27
+plot_model|function|281fb2ac3f7e1d23
 plot_mcmc_trace|function|6177c9f62a96c098
 combine_plots|function|b5f07e8a52c8e909
 simulate_model_comparison|function|d7d5a5fbf21c2fa3
+plot_South.America|stem|244881af388d5f3f|c3a085ebf7a971d6|1495e4ed114e768e|77122775||t20607.7370404753s|s1956192b|1956192|rds|local|vector|||57.9||
+plot_Eurasia|stem|0755ce9025e293af|3d34f8400449bdb9|1495e4ed114e768e|-219873948||t20607.7379599635s|s1956639b|1956639|rds|local|vector|||64.305||
+plot_Global|stem|69647ef86b12999d|7a38c83561d5e0a4|1495e4ed114e768e|1369334778||t20607.738695161s|s1959262b|1959262|rds|local|vector|||45.512||
+plot_Africa|stem|ec4f9d073c70fce7|af5e9acb93de8854|1495e4ed114e768e|1886352024||t20607.7397316026s|s1957175b|1957175|rds|local|vector|||71.459||
+plot_North.America|stem|4d38d00360fadeb1|b0be03164e2e5751|1495e4ed114e768e|-132805188||t20607.7406166912s|s1955807b|1955807|rds|local|vector|||58.048||
+plot_Oceania|stem|90f97440a4b92f5c|d9603ac23ca7059e|1495e4ed114e768e|-2065759321||t20607.7414932784s|s1955741b|1955741|rds|local|vector|||60.14||
+combined_plots|stem|30e707dfbf53da18|bbbc38ee74ce24a8|da69d0b49f6716f9|1038530895||t20607.7415278113s|s11767049b|11767049|rds|local|vector|||1.598|Removed 21 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 21 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 21 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 21 rows containing missing values or values outside the scale range (`geom_line()`).. Removed 23 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 23 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 23 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 23 rows containing missing values or values outside the scale range (`geom_line()`).|
+manuscript|stem|c1c005571434bf41|8b765ee58e7e7a46|a43461778ba04991|-1793997187|quarto/manuscript.docx*quarto/manuscript.pdf*quarto/manuscript.qmd*quarto/supplement.qmd|t20607.7421750923s|s540809b|540809|file|local|vector|||45.326||

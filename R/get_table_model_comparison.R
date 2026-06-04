@@ -26,7 +26,7 @@ get_table_model_comparison <- function(fits) {
       `Log marginal likelihood` = format(round(log_lik, 2), nsmall = 2),
       `Log BF vs. full model` = ifelse(
         log_bf == 0,
-        " ",
+        "-",
         format(round(log_bf, 2), trim = TRUE, nsmall = 2)
       )
     )

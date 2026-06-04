@@ -184,9 +184,13 @@ list(
   tar_target(sim_3, simulate_model_comparison(data, mcc_tree, fossil = "3")),
 
   # ─────────────────────────────────────────
-  # Print session info
+  # Produce manuscript
   # ─────────────────────────────────────────
 
+  # knit quarto manuscript
+  tar_quarto(manuscript, "quarto/manuscript.qmd", quiet = FALSE),
+
+  # write session info
   tar_target(
     sessionInfo,
     writeLines(capture.output(sessionInfo()), "sessionInfo.txt")

@@ -62,29 +62,30 @@ plot_model <- function(data, fit, tree, tree_id, continent = NULL,
     # continent filtering (once per tree)
     if (!is.null(continent)) {
 
-      # get taxa on continent
-      taxa <-
-        data |>
-        filter(!is.na(big_region) & big_region == continent) |>
-        pull(xd_id)
+      # named vector: tip -> continent
+      tip_continent <- data$big_region
+      names(tip_continent) <- data$xd_id
 
-      # get most recent common ancestor
-      mrca <- ape::getMRCA(tree_obj, taxa)
+      # get vector of all internal nodes
+      internal_nodes <- (Ntip(tree_obj) + 1):(Ntip(tree_obj) + tree_obj$Nnode)
 
-      # get ancestors
-      ancestors <- unique(unlist(
-        phangorn::Ancestors(tree_obj, node = taxa, type = "all")
-      ))
+      # logical: internal nodes for which all descendant nodes are on continent
+      exclusive_nodes <- sapply(internal_nodes, function(node) {
 
-      # retain ancestors younger than mrca
-      ancestors <- ancestors[ancestors >= mrca]
+        desc_tips <- Descendants(tree_obj, node = node, type = "tips")[[1]]
+        tip_names <- tree_obj$tip.label[desc_tips]
+        continents <- unique(tip_continent[tip_names])
+        length(continents) == 1 && continents == continent && !is.na(continents)
+
+      })
 
       # filter to continent
-      keep <- parent_node %in% ancestors
+      keep <- parent_node %in% internal_nodes[exclusive_nodes]
       parent_node <- parent_node[keep]
       child_node <- child_node[keep]
       time_start <- time_start[keep]
       time_end <- time_end[keep]
+
     }
 
     # time slicing (vectorised)
