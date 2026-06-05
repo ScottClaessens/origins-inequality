@@ -148,7 +148,7 @@ list(
         "Sino-Tibetan", "Mande", "Salishan", "Uralic", "Eskimo-Aleut",
         "Austroasiatic", "Arawakan", "Cariban", "Central Sudanic", "Turkic",
         "Cochimi-Yuman", "Dravidian", "Nuclear Trans New Guinea", "Siouan",
-        "Tupian", "Mayan"
+        "Tupian", "Mayan", "Kiowa-Tanoan"
       )
     ),
     tar_target(plot, plot_model(data, fit_asr, tree, tree_id,
@@ -161,13 +161,13 @@ list(
     combined_plots,
     combine_plots(
       list(
-        plot_Global, plot_Atlantic.Congo, plot_Austronesian, plot_Afro.Asiatic,
-        plot_Uto.Aztecan, plot_Indo.European, plot_Nilotic, plot_Algic,
-        plot_Athabaskan.Eyak.Tlingit, plot_Sino.Tibetan, plot_Mande,
-        plot_Salishan, plot_Uralic, plot_Eskimo.Aleut, plot_Austroasiatic,
-        plot_Arawakan, plot_Cariban, plot_Central.Sudanic, plot_Turkic,
-        plot_Cochimi.Yuman, plot_Dravidian, plot_Nuclear.Trans.New.Guinea,
-        plot_Siouan, plot_Tupian, plot_Mayan
+        plot_Global, plot_Atlantic.Congo, plot_Afro.Asiatic, plot_Nilotic,
+        plot_Mande, plot_Central.Sudanic, plot_Indo.European, plot_Sino.Tibetan,
+        plot_Uralic, plot_Austroasiatic, plot_Turkic, plot_Dravidian,
+        plot_Uto.Aztecan, plot_Algic, plot_Athabaskan.Eyak.Tlingit,
+        plot_Salishan, plot_Eskimo.Aleut, plot_Cochimi.Yuman, plot_Siouan,
+        plot_Mayan, plot_Kiowa.Tanoan, plot_Austronesian,
+        plot_Nuclear.Trans.New.Guinea, plot_Arawakan, plot_Cariban, plot_Tupian
       )
     )
   ),

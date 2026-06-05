@@ -1,7 +1,7 @@
 #' Plot results of ancestral state reconstruction model
 #'
 #' @param data Tibble of D-PLACE data
-#' @param fit Results of fitted model
+#' @param fit_asr Results of fitted model
 #' @param tree Tree object of class multiPhylo
 #' @param tree_id Indexes for trees
 #' @param family (optional) Character. Resulting plot will summarise
@@ -15,7 +15,7 @@
 #'
 #' @returns A ggplot object
 #'
-plot_model <- function(data, fit, tree, tree_id, family = NULL,
+plot_model <- function(data, fit_asr, tree, tree_id, family = NULL,
                        start_time = -20, end_time = -0.25, time_slice = 0.25) {
 
   # get sequence of time slices
@@ -38,7 +38,7 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
 
     # get posterior samples for this tree
     prob_matrix <-
-      fit |>
+      fit_asr |>
       filter(tree_id == id) |>
       dplyr::select(ends_with("P(3)") & !starts_with("Root")) |>
       as.matrix()
@@ -118,6 +118,35 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
 
   out <- do.call(rbind, results)
 
+  # get continents for language families
+  continents <- c(
+    "Atlantic-Congo"           = "Africa",
+    "Afro-Asiatic"             = "Africa",
+    "Nilotic"                  = "Africa",
+    "Mande"                    = "Africa",
+    "Central Sudanic"          = "Africa",
+    "Indo-European"            = "Eurasia",
+    "Sino-Tibetan"             = "Eurasia",
+    "Uralic"                   = "Eurasia",
+    "Austroasiatic"            = "Eurasia",
+    "Turkic"                   = "Eurasia",
+    "Dravidian"                = "Eurasia",
+    "Uto-Aztecan"              = "North America",
+    "Algic"                    = "North America",
+    "Athabaskan-Eyak-Tlingit"  = "North America",
+    "Salishan"                 = "North America",
+    "Eskimo-Aleut"             = "North America",
+    "Cochimi-Yuman"            = "North America",
+    "Siouan"                   = "North America",
+    "Mayan"                    = "North America",
+    "Kiowa-Tanoan"             = "North America",
+    "Austronesian"             = "Oceania",
+    "Nuclear Trans New Guinea" = "Oceania",
+    "Arawakan"                 = "South America",
+    "Cariban"                  = "South America",
+    "Tupian"                   = "South America"
+  )
+
   # aggregate across trees
   out_summary <-
     out |>
@@ -132,6 +161,13 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
       lower25 = quantile(maximums, 0.025, na.rm = TRUE),
       upper25 = quantile(maximums, 0.975, na.rm = TRUE),
       .groups = "drop"
+    ) |>
+    mutate(
+      continent = ifelse(
+        is.null(family),
+        "Global",
+        continents[family]
+      )
     )
 
   # plot time slices
@@ -146,28 +182,40 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
       aes(
         x = time,
         ymin = lower95,
-        ymax = upper95
+        ymax = upper95,
+        fill = continent
       ),
-      fill = "grey90",
       alpha = 0.5
     ) +
+    scale_fill_manual(
+      values = c(
+        "Global"        = "#CCCCCC",
+        "Africa"        = "#FFDC8F",
+        "Eurasia"       = "#BBE1F6",
+        "North America" = "#72FFD9",
+        "South America" = "#FFBD88",
+        "Oceania"       = "#EBC9DC"
+      )
+    ) +
+    ggnewscale::new_scale_fill() +
     geom_ribbon(
       aes(
         x = time,
         ymin = lower50,
-        ymax = upper50
+        ymax = upper50,
+        fill = continent
       ),
-      fill = "grey80",
       alpha = 0.5
     ) +
-    geom_ribbon(
-      aes(
-        x = time,
-        ymin = lower25,
-        ymax = upper25
-      ),
-      fill = "grey70",
-      alpha = 0.5
+    scale_fill_manual(
+      values = c(
+        "Global"        = "#B3B3B3",
+        "Africa"        = "#E69F00",
+        "Eurasia"       = "#56B4E9",
+        "North America" = "#009E73",
+        "South America" = "#D55E00",
+        "Oceania"       = "#CC79A7"
+      )
     ) +
     geom_line(
       aes(
@@ -180,15 +228,30 @@ plot_model <- function(data, fit, tree, tree_id, family = NULL,
       name = "Maximum probability of stratification",
       limits = c(0, 1)
     ) +
-    ggtitle(ifelse(!is.null(family), family, "Global")) +
     theme_classic() +
     theme(
       plot.title = element_text(size = 8),
-      axis.text = element_text(size = 7)
+      axis.text = element_text(size = 7),
+      legend.title = element_blank()
     )
 
+  # add title?
+  if (!is.null(family)) {
+
+    if (family == "Nuclear Trans New Guinea") {
+      title <- "Nuclear Trans\nNew Guinea"
+    } else if (family == "Athabaskan-Eyak-Tlingit") {
+      title <- "Athabaskan-\nEyak-Tlingit"
+    } else {
+      title <- family
+    }
+
+    p <- p + ggtitle(title)
+
+  }
+
   # cleanup
-  rm(data, fit, out, out_summary, results, tree, start_time, end_time,
+  rm(data, fit_asr, out, out_summary, results, tree, start_time, end_time,
      time_slice, times_seq, tree_id, family)
 
   # return
