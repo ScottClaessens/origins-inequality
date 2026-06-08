@@ -15,8 +15,8 @@ combine_plots <- function(plot_list) {
   right_plot <-
     wrap_plots(plot_list[-1]) +
     plot_layout(
-      nrow = 5,
-      ncol = 5,
+      nrow = 6,
+      ncol = 4,
       axes = "collect",
       axis_titles = "collect",
       guides = "collect"
@@ -31,7 +31,7 @@ combine_plots <- function(plot_list) {
       breaks = c(0, 1)
     ) &
     theme(
-      plot.title = element_text(size = 6),
+      plot.title = element_text(size = 7),
       legend.key.height = unit(15, "pt"),
       legend.spacing.y = unit(0, "pt")
     )
@@ -46,7 +46,7 @@ combine_plots <- function(plot_list) {
     filename = "plots/time_slices.pdf",
     plot = out,
     width = 8.5,
-    height = 4
+    height = 4.5
   )
 
   # return

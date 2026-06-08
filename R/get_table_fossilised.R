@@ -42,7 +42,7 @@ get_table_fossilised <- function(log_lik_1, log_lik_2, log_lik_3) {
   ) |>
   # replace zeros with dashes
   mutate(
-    across(everything(), function(x) ifelse(str_ends(x, "0.00"), " ", x))
+    across(everything(), function(x) ifelse(str_ends(x, "0.00"), "-", x))
   )
 
 }
