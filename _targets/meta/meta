@@ -450,9 +450,6 @@ diagnostics_unilinear|stem|584658e660f968a8|d94b9c2b6bf43ad9|eebbb82ded5bfbed|19
 diagnostics_rectilinear|stem|80114800c37c0645|ba4b81d4c44dba67|ae0f767ac14666ce|258249229||t20606.5240433778s|s490b|490|rds|local|vector|||0.023||
 diagnostics_alternative|stem|edf17be7c7d73e5e|8253e37d4529f40e|c17f87d26a211487|1983963952||t20606.5240441114s|s518b|518|rds|local|vector|||0.036||
 diagnostics_full|stem|38eed4cf8be4e9d8|f67821d17513c475|33bd14b3cfb6a262|1911338453||t20606.5240447597s|s591b|591|rds|local|vector|||0.025||
-log_lik_1|stem|a8a823c79505134b|ce4f97488aaebc2c|f324bcfe2a56ee18|-989141741||t20606.5775016441s|s54b|54|rds|local|vector|||196.348||
-log_lik_2|stem|a548234151b58f2f|a53d5f9d2f7b060a|f324bcfe2a56ee18|-346051168||t20606.5797416735s|s54b|54|rds|local|vector|||193.514||
-log_lik_3|stem|ee306e3d5fe833dc|d53a855a47b24f63|f324bcfe2a56ee18|445915265||t20606.5819664106s|s54b|54|rds|local|vector|||192.193||
 sessionInfo|stem|ea95d97d277d3ba7|6f338939dd102f8f|2c530c1562a7fbd1|1164010252||t20606.7169792062s|s43b|43|rds|local|vector|||3.507||
 table_model_comparison|stem|556d10afc3697a81|d5772e1692cb2e65|92bab33224d00f6c|1513349936||t20607.6529366214s|s366b|366|rds|local|vector|||0.031||
 plot_tree_states|stem|1d9c98e23a3dd988|a7ed96d3582bb893|dd16185fa051ebcc|-946372951||t20608.373570601s|s22503352b|22503352|rds|local|vector|||2.103|`coord_geo_polar()` was deprecated in deeptime 1.1.0. ℹ Please use `coord_geo_radial()` instead.. Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0. ℹ Please use `linewidth` instead. ℹ The deprecated feature was likely used in the ggtree package.   Please report the issue at <https://github.com/YuLab-SMU/ggtree/issues>.|
@@ -483,20 +480,23 @@ plot_Cochimi.Yuman|stem|1cfdb873c6aa7755|478831c1faa635a5|2118e8ed570901fa|-1534
 plot_Mayan|stem|f19f46865cc08591|356abc7c82716802|2118e8ed570901fa|-26033229||t20609.3951750677s|s498607b|498607|rds|local|vector|||9.129||
 plot_Dravidian|stem|1c3c6df9b81a4e1a|9321a7089f061ab5|2118e8ed570901fa|1285821890||t20609.3954804329s|s497144b|497144|rds|local|vector|||9.285||
 plot_Austronesian|stem|d4c77af853df1404|14691d203432c085|2118e8ed570901fa|1936260641||t20609.395846657s|s499992b|499992|rds|local|vector|||19.372||
-sim_1|stem|02c6a4b01b820905|541a67396669198a|ae40b3032ff42643|1645101238||t20609.4684363324s|s295b|295|rds|local|vector|||579.239||
-sim_2|stem|4bce45a098cc2043|56cbd54b45196963|ae40b3032ff42643|1869798857||t20609.4751198432s|s295b|295|rds|local|vector|||577.436||
-sim_3|stem|6642ca8bd8e50855|fd8f648b86bd9838|ae40b3032ff42643|2018103881||t20609.4817516911s|s296b|296|rds|local|vector|||572.967||
-table_fossilised_log_bfs|stem|6d5845cb52fad547|613ec09d69352cdb|c1f076dc1ce4aafb|-1852138708||t20609.5915618861s|s297b|297|rds|local|vector|||0.015||
 combined_plots|stem|aaf4661727e709a2|dfcab05e139e343d|d737572110d902c8|1038530895||t20609.659026164s|s12756354b|12756354|rds|local|vector|||2.461|Removed 51 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 51 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 51 rows containing missing values or values outside the scale range (`geom_line()`).. Removed 65 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 65 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 65 rows containing missing values or values outside the scale range (`geom_line()`).. Removed 61 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 61 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 61 rows containing missing values or values outside the scale range (`geom_line()`).. Removed 64 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 64 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 64 rows containing missing values or values outside the scale range (`geom_line()`).. Removed 63 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 63 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 63 rows containing missing values or values outside the scale range (`geom_line()`).. Removed 57 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 57 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 57 rows containing missing values or values outside the scale range (`geom_line()`).. Removed 67 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 67 rows containing missing values or values outs|
 fit_model|function|93bdcf3d8bff70af
 plot_tree|function|f87a08cdc0363803
 get_table_model_comparison|function|89f6d8a3d44e0154
 load_dplace_data|function|39e3a15ed321b6e2
-get_log_lik_fossilised|function|94488e4a536818fa
+get_log_lik_fossilised|function|788f7fa86f45b025
 get_table_fossilised|function|8d314370ab905f55
 calculate_model_diagnostics|function|1ae842fe1691394b
 plot_model|function|c433a87f7b68221d
 plot_mcmc_trace|function|6177c9f62a96c098
 combine_plots|function|692479be15d7a103
-simulate_model_comparison|function|7251e0368ae13c96
-manuscript|stem|36873bf51444cc5a|18f23d189310130a|fea1fecfc243b14f|-1793997187|quarto/manuscript.docx*quarto/manuscript.pdf*quarto/manuscript.qmd*quarto/supplement.qmd|t20609.6994513543s|s751168b|751168|file|local|vector|||24.304||
+simulate_model_comparison|function|3fba85a399d94650
+log_lik_1|stem|a6bbd1f934897f01|ce4f97488aaebc2c|67b9259fcb501921|-989141741||t20612.3985203108s|s54b|54|rds|local|vector|||1344.6||
+log_lik_2|stem|012dd920833a744c|a53d5f9d2f7b060a|67b9259fcb501921|-346051168||t20612.414083523s|s54b|54|rds|local|vector|||1344.624||
+log_lik_3|stem|f85452a6857b0ff5|d53a855a47b24f63|67b9259fcb501921|445915265||t20612.4295891396s|s54b|54|rds|local|vector|||1339.641||
+sim_1|stem|9522d7bbcb0e47a4|541a67396669198a|678608085df329fe|1645101238||t20612.4765104828s|s296b|296|rds|local|vector|||4053.981||
+sim_2|stem|481b88612053640d|56cbd54b45196963|678608085df329fe|1869798857||t20612.5229543632s|s294b|294|rds|local|vector|||4012.712||
+sim_3|stem|27c047e8f63eb8a8|fd8f648b86bd9838|678608085df329fe|2018103881||t20612.568856527s|s296b|296|rds|local|vector|||3965.921||
+table_fossilised_log_bfs|stem|fd59957ddb8e70c7|613ec09d69352cdb|d83207dfd8f4e34a|-1852138708||t20612.5688582329s|s295b|295|rds|local|vector|||0.002||
+manuscript|stem|051dfd78c2cf52eb|18f23d189310130a|e770b7e3c4c7251f|-1793997187|quarto/manuscript.docx*quarto/manuscript.pdf*quarto/manuscript.qmd*quarto/supplement.qmd|t20612.5692931936s|s751173b|751173|file|local|vector|||32.958||

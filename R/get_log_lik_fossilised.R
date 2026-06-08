@@ -46,7 +46,7 @@ get_log_lik_fossilised <- function(data, mcc_tree, fossilised = "1") {
       "2",                       # mcmc
       "HyperPriorAll exp 0 10",  # priors
       "Iterations 500000",       # number of iterations
-      "Stones 100 10000",        # stepping stone sampler for model comparison
+      "Stones 1000 10000",       # stepping stone sampler for model comparison
       "Res q13 0",               # relaxed unilinear model
       "Seed 123"                 # seed
     )
